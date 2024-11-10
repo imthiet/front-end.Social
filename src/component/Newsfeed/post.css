@@ -1,0 +1,49 @@
+/* Post.css */
+.post-container {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-title {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.post-content {
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+.post-image {
+    width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+
+.post-date {
+    color: #888;
+    font-size: 0.9rem;
+}
+.post-image
+{
+    max-width: 100px;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 5px; /* Optional: Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Shadow for a nice effect */
+}
+.author
+{
+    font-weight: bold;
+    color: #333;
+}
