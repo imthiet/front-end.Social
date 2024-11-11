@@ -5,6 +5,7 @@
     margin: 10px 0;
     border-radius: 8px;
     background-color: #fff;
+    position: relative; /* Đặt post-container là vị trí gốc */
 }
 
 .post-header {
@@ -46,4 +47,47 @@
 {
     font-weight: bold;
     color: #333;
+}
+.post-icons {
+    display: flex;
+    align-items: center; /* Đảm bảo các icon và số lượng like cùng hàng */
+}
+
+.like-section {
+    display: flex;
+    align-items: center; /* Căn giữa icon like và số lượng like */
+    margin-right: 15px; /* Thêm khoảng cách giữa like và comment nếu cần */
+}
+
+.icon {
+    width: 20px; /* Đặt kích thước phù hợp cho các icon */
+    height: 20px;
+    cursor: pointer;
+}
+.comments-section {
+    position: absolute;
+    right: -280px; /* Điều chỉnh khoảng cách để phần comment xuất hiện bên cạnh post */
+    top: 0;
+    width: 250px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.comment {
+    margin-bottom: 10px;
+}
+
+.comment p {
+    margin: 0;
+}
+
+.comment-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-top: 5px;
 }

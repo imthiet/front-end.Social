@@ -15,12 +15,12 @@ function Navbar() {
         }
 
         const checkForNotifications = () => {
-            fetch('/api/notifications/unread')
-                .then((response) => response.json())
-                .then((notifications) => {
-                    setHasNewNotification(notifications.length > 0);
-                })
-                .catch((error) => console.error('Error fetching notifications:', error));
+            // fetch('/api/notifications/unread')
+            //     .then((response) => response.json())
+            //     .then((notifications) => {
+            //         setHasNewNotification(notifications.length > 0);
+            //     })
+            //     .catch((error) => console.error('Error fetching notifications:', error));
         };
         const intervalId = setInterval(checkForNotifications, 3000);
 
