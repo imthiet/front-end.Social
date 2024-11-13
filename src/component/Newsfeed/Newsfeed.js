@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Post from './post';
 import './Newsfeed.css';
+import Navbar from '../Navbar/Navbar';
 
 function Newsfeed() {
     const [posts, setPosts] = useState([]);
-    
-
-   
-    
+    const [isLoading, setIsLoading] = useState(true); // Loading state
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -23,6 +21,8 @@ function Newsfeed() {
                 setPosts(data);
             } catch (error) {
                 console.error('Error fetching posts:', error);
+            } finally {
+                setIsLoading(false); // Stop loading spinner after data is fetched
             }
         };
 
@@ -30,19 +30,31 @@ function Newsfeed() {
     }, []);
 
     return (
+        <div className='main-container'>
+            <Navbar/>
+       
         <div className="newsfeed-container">
-            {posts.map(post => (
-                <Post 
-                    key={post.id}
-                    id={post.id}
-                    content={post.content}
-                    image={post.image}
-                    createdBy={post.createdBy}
-                    createdAt={post.createdAt}
-                    likesCount={post.likesCount}
-                    comments={post.comments} // Convert createdAt to relative time
-                />
-            ))}
+            {isLoading ? (
+                <div className="spinner">
+                    {/* Add spinner styling here or in your CSS */}
+                    <div className="loader"></div>
+                </div>
+            ) : (
+                posts.map(post => (
+                    <Post 
+                        key={post.id}
+                        id={post.id}
+                        content={post.content}
+                        image={post.image}
+                        createdBy={post.createdBy}
+                        createdAt={post.createdAt}
+                        likesCount={post.likesCount}
+                        comments={post.comments}
+                        liked={post.liked} // Pass 'isLiked' here
+                    />
+                ))
+            )}
+        </div>
         </div>
     );
 }

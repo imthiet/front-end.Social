@@ -66,14 +66,14 @@
 }
 .comments-section {
     position: absolute;
-    right: -280px; /* Điều chỉnh khoảng cách để phần comment xuất hiện bên cạnh post */
+    right: -380px; /* Điều chỉnh khoảng cách để phần comment xuất hiện bên cạnh post */
     top: 0;
-    width: 250px;
+    width: 350px;
     background-color: #f0f0f0;
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
     z-index: 1;
 }
 
@@ -89,5 +89,37 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    margin-top: 5px;
+}
+
+.add-comment {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.comment-input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.submit-comment {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    
+}
+
+.submit-comment:hover {
+    background-color: #45a049;
+}
+
+.error-message {
+    color: red;
     margin-top: 5px;
 }
