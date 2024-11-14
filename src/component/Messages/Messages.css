@@ -2,7 +2,7 @@
 .messages-container {
     padding-top: 60px;
     font-family: Arial, sans-serif;
-    width: 50%;
+    width: 55%;
   }
   
   .message-list {
@@ -87,3 +87,36 @@
       background-position: 150% 0, 0 0, 70px 5px, 70px 38px, 0px 66px;
     }
   }
+  .chatbox-container {
+    width: 30%;
+    padding-top: 67px;
+    position: absolute;  /* Chuyển sang absolute để căn chỉnh với .messages-container */
+    top: 0; /* Đảm bảo container nằm ở trên cùng */
+    right: 0; /* Đặt container vào góc phải của màn hình */
+    display: flex;
+    flex-direction: column; /* Đảm bảo các phần tử trong container xếp theo chiều dọc */
+  }
+  
+  .chatbox {
+    position: relative;  /* Thay đổi từ absolute sang relative */
+    left: -480px; /* Điều chỉnh khoảng cách để phần comment xuất hiện bên cạnh post */
+    width: 100%;  /* Đảm bảo chatbox chiếm hết chiều rộng của .chatbox-container */
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    
+    border-radius: 8px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+  
+  .chatbox-messages {
+    height: calc(100% - 60px); /* Chiều cao của chatbox */
+    overflow-y: auto;
+    padding: 10px;
+  }
+  
+  .chatbox-input {
+    display: flex;
+    gap: 5px;
+  }
+  
