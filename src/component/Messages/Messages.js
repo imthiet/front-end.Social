@@ -12,7 +12,7 @@ function Messages() {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/chat/messages', {
+        const response = await fetch('http://localhost:8080/messages', {
           method: 'GET',
           credentials: 'include',
           headers: {
@@ -45,9 +45,9 @@ function Messages() {
       <div className="messages-container">
         {error && <p>{error}</p>}
         {isLoading ? (
-          <div className="spinner">
+         
             <div className="loader"></div>
-          </div>
+         
         ) : (
           <ul className="message-list">
             {usersWithMessages.length === 0 ? (

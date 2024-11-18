@@ -6,6 +6,8 @@ import Newsfeed from './component/Newsfeed/Newsfeed';
 import SignUp from './component/SignUp/SignUp';  // Path to your SignUp component
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Correct import
 import 'font-awesome/css/font-awesome.min.css';
+import SearchPage from './component/Search/Search';
+import SearchPage from './component/Profile/Profile';
 
 
 
@@ -23,7 +25,8 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/Newsfeed" element={<Newsfeed />} />
             <Route path="/messages" element={<Messages />} />
-
+            <Route path="/search_page" element={<SearchPage />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
       </Router>
     </div>

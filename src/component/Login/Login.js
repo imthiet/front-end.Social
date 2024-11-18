@@ -18,7 +18,7 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         setError(null);
-
+    
         try {
             const response = await fetch('http://localhost:8080/login', {
                 method: 'POST',
@@ -26,14 +26,16 @@ const Login = () => {
                 body: JSON.stringify({ username, password }),
                 credentials: 'include'
             });
-
+    
             if (!response.ok) {
                 throw new Error('Invalid username or password');
             }
-
+    
+            const data = await response.json();
             localStorage.setItem('auth', 'true');
             localStorage.setItem('username', username);
-            
+            localStorage.setItem('userId', data.userId);  // Store userId in localStorage
+    
             window.location.href = '/Newsfeed';
         } catch (err) {
             setError(err.message);
@@ -41,7 +43,7 @@ const Login = () => {
             setLoading(false);
         }
     };
-
+    
     const togglePassword = () => setPasswordVisible(!passwordVisible);
 
     return (

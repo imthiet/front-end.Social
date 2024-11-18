@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 function Navbar() {
     const [showDropdown, setShowDropdown] = useState(false);
     const [hasNewNotification, setHasNewNotification] = useState(false);
-    const [username, setUsername] = useState(''); // Thêm state để lưu tên người dùng
+    const [username, setUsername] = useState('');
+    const navigate = useNavigate(); // Use navigate at the top level
 
     useEffect(() => {
-        // Lấy tên người dùng từ localStorage
+        // Get username from localStorage
         const storedUsername = localStorage.getItem('username');
         if (storedUsername) {
             setUsername(storedUsername);
         }
 
         const checkForNotifications = () => {
+            // Uncomment when API is available
             // fetch('/api/notifications/unread')
             //     .then((response) => response.json())
             //     .then((notifications) => {
@@ -22,10 +24,11 @@ function Navbar() {
             //     })
             //     .catch((error) => console.error('Error fetching notifications:', error));
         };
+
         const intervalId = setInterval(checkForNotifications, 3000);
 
-        return () => clearInterval(intervalId);
-    }, []); // Chạy chỉ một lần khi component mount
+        return () => clearInterval(intervalId); // Cleanup on unmount
+    }, []);
 
     const toggleDropdown = (e) => {
         e.stopPropagation();
@@ -35,20 +38,41 @@ function Navbar() {
     const handleLogout = (e) => {
         if (!window.confirm("Are you sure you want to logout?")) {
             e.preventDefault();
-        } else {
-            localStorage.removeItem('username');  // Xóa tên người dùng khi đăng xuất
-            localStorage.removeItem('auth');      // Xóa thông tin xác thực
+            return;
+        }
+
+        fetch('/users/logout', { method: 'GET' }) // API call to logout
+            .then((response) => {
+                if (response.ok) {
+                    localStorage.removeItem('username'); // Clear username
+                    localStorage.removeItem('auth'); // Clear auth
+                    navigate('/'); // Redirect to login
+                } else {
+                    console.error('Failed to logout:', response.status);
+                }
+            })
+            .catch((error) => console.error('Error during logout:', error));
+    };
+
+    const handleClickOutside = (e) => {
+        if (!e.target.closest('.header-username')) {
+            setShowDropdown(false);
         }
     };
+
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, []);
 
     return (
         <header className="header-container">
             <div className="header-icons">
                 <Link to="/newsfeed" className="icon">
-                <img src={require('../../assets/images/home.png')} alt="Home" />
+                    <img src={require('../../assets/images/home.png')} alt="Home" />
                 </Link>
                 <Link to="/messages" className="icon">
-                <img src={require('../../assets/images/message.png')} alt="Search" />
+                    <img src={require('../../assets/images/message.png')} alt="Messages" />
                 </Link>
                 <Link to="/noti_list" className="icon">
                     <img
@@ -57,22 +81,19 @@ function Navbar() {
                     />
                 </Link>
                 <Link to="/users" className="icon">
-                <img src={require('../../assets/images/setting.png')} alt="Settings" />
+                    <img src={require('../../assets/images/setting.png')} alt="Settings" />
                 </Link>
                 <Link to="/search_page" className="icon">
-                <img src={require('../../assets/images/transparency.png')} alt="Search" />
+                    <img src={require('../../assets/images/transparency.png')} alt="Search" />
                 </Link>
             </div>
-
             <div className="header-username" onClick={toggleDropdown}>
                 <img src="/Image/profile.png" alt="User Avatar" className="avatar-img" />
-                <span>{username}</span> {/* Hiển thị tên người dùng */}
-                {showDropdown && (
-                    <div className="dropdown-content">
-                        <Link to="/profile">Profile</Link>
-                        <a href="/users/logout" onClick={handleLogout}>Logout</a>
-                    </div>
-                )}
+                <span>{username}</span>
+                <div className={`dropdown-content ${showDropdown ? 'show' : ''}`}>
+                    <Link to="/profile">Profile</Link>
+                    <a onClick={handleLogout}>Logout</a>
+                </div>
             </div>
         </header>
     );

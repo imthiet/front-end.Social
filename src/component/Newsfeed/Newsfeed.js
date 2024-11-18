@@ -31,13 +31,12 @@ function Newsfeed() {
 
     return (
         <div className='main-container'>
-            <Navbar/>
+           <Navbar></Navbar>
        
         <div className="newsfeed-container">
             {isLoading ? (
-                <div className="spinner">
-                    {/* Add spinner styling here or in your CSS */}
-                    <div className="loader"></div>
+                <div className="loader">
+                   
                 </div>
             ) : (
                 posts.map(post => (

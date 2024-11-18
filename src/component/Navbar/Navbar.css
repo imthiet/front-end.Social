@@ -51,20 +51,21 @@
 }
 
 .dropdown-content {
-    display: none;
+    display: none; /* Hidden by default */
     position: absolute;
     top: calc(100% + 5px);
     right: 0;
     background-color: #fff;
     min-width: 130px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid #333;
+    z-index: 1000; /* Ensure it appears above other elements */
 }
 
-.header-username:hover .dropdown-content {
-    display: block;
+.dropdown-content.show {
+    display: block; /* Visible when 'show' class is added */
 }
 
 .dropdown-content a {
