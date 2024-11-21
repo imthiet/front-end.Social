@@ -7,7 +7,7 @@ import SignUp from './component/SignUp/SignUp';  // Path to your SignUp componen
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Correct import
 import 'font-awesome/css/font-awesome.min.css';
 import SearchPage from './component/Search/Search';
-import SearchPage from './component/Profile/Profile';
+import Profile from './component/Profile/Profile';
 
 
 
