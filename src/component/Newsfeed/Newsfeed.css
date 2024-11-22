@@ -1,9 +1,12 @@
 .newsfeed-container
 {
-    padding-top: 55px;
+    padding-top: 25px;
     width: 60%;
-    align-items: center;
-    justify-content: center;
+    margin: 0 auto; /* Căn giữa toàn bộ newsfeed */
+}
+.main-container
+{
+  padding-top: 55px;
 }
 .loader {
   width: 48px;
@@ -15,6 +18,7 @@
   border-color: #1b1818 #1b1818 transparent transparent;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
+  align-items: center;
 }
 .loader::after,
 .loader::before {
@@ -34,12 +38,14 @@
   box-sizing: border-box;
   animation: rotationBack 0.5s linear infinite;
   transform-origin: center center;
+  align-items: center;
 }
 .loader::before {
   width: 32px;
   height: 32px;
   border-color: #FFF #FFF transparent transparent;
   animation: rotation 1.5s linear infinite;
+  align-items: center;
 }
     
 @keyframes rotation {
@@ -58,4 +64,74 @@
     transform: rotate(-360deg);
   }
 }
-    
+.createPost-container {
+  margin: 20px;
+  text-align: center;
+  
+ 
+}
+
+.createPost-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+  
+  box-shadow: -5px -5px 5px rgba(18, 3, 3, 0.1); /* X Offset, Y Offset, Blur, Màu */
+}
+
+.createPost-box textarea {
+  width: 100%;
+  resize: none;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.createPost-box input[type="file"] {
+  padding: 5px;
+}
+
+.createPost-box button {
+  width: 20%; /* Điều chỉnh chiều rộng của button */
+  padding: 5px;
+  background-color: #ffffff;
+  color: #0e0e0e;
+  border: 2px solid;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 20px;
+  font-weight: bold;
+
+  box-shadow: -5px -5px 5px rgba(18, 3, 3, 0.1); /* X Offset, Y Offset, Blur, Màu */
+}
+
+.createPost-box button:hover {
+  background-color: #00285A;
+    color: #FFFFFF;
+}
+.open-btn
+{
+  width: 20%; /* Điều chỉnh chiều rộng của button */
+  padding: 5px;
+  background-color: #ffffff;
+  color: #0e0e0e;
+  border: 2px solid;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 20px;
+  font-weight: bold;
+}
+
+.open-btn:hover
+{
+  background-color: #00285A;
+  color: #FFFFFF;
+}

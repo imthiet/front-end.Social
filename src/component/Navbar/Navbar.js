@@ -86,9 +86,14 @@ function Navbar() {
                 <Link to="/search_page" className="icon">
                     <img src={require('../../assets/images/transparency.png')} alt="Search" />
                 </Link>
+
+                <Link to="/newfeed" className="logo">
+                    <img src={require('../../assets/images/logo.png')} alt="Search" />
+                </Link>
+               
             </div>
             <div className="header-username" onClick={toggleDropdown}>
-                <img src="/Image/profile.png" alt="User Avatar" className="avatar-img" />
+                <img src={require('../../assets/images/card.png')} alt="User Avatar" className="avatar-img" />
                 <span>{username}</span>
                 <div className={`dropdown-content ${showDropdown ? 'show' : ''}`}>
                     <Link to="/profile">Profile</Link>

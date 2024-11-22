@@ -44,7 +44,7 @@ function Noti() {
         <div>
             <Navbar/>
       
-        <div className="noti-container" style={{ padding: "20px", fontFamily: "Arial, sans-serif", paddingTop: "60px" }}>
+        <div className="noti-container" style={{ padding: "20px", fontFamily: "Arial, sans-serif", paddingTop: "65px",width: "85%", margin: "0 auto" }}>
            
             <ul style={{ listStyleType: "none", padding: "0" }}>
                 {notifications.map((notification, index) => (

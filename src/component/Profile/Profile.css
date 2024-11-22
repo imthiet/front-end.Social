@@ -87,3 +87,29 @@
     font-size: 14px;
     color: #ff5722;
 }
+.friend-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-friend {
+    background-color: green;
+    color: white;
+}
+
+.btn-pending {
+    background-color: orange;
+    color: white;
+}
+.add-friend {
+    background-color: blue;
+    color: white;
+}
+.btn-accept
+{
+    background-color: green;
+    color: white;
+}

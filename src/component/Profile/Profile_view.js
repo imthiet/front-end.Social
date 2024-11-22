@@ -21,80 +21,71 @@ function Profile_view() {
     });
     
      // Hàm gửi yêu cầu kết bạn
-  const handleAddFriend = async (friendUsername) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/add_friend?username=${encodeURIComponent(
-          friendUsername
-        )}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+     const handleFriendRequest = async (friendUsername) => {
+        try {
+          // Gửi yêu cầu API
+          const response = await fetch(
+            `http://localhost:8080/add_friend?username=${encodeURIComponent(
+              friendUsername
+            )}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              credentials: "include",
+            }
+          );
+      
+          const data = await response.json();
+      
+          if (response.ok) {
+            // Cập nhật trạng thái để nút thay đổi ngay lập tức
+            setFriendStatus((prevStatus) => ({
+              ...prevStatus,
+              friendPending: true,
+              friendRequestReceiver: true // Hiển thị "Friend Request Sent"
+            }));
+            alert(data.message); // Hiển thị thông báo
+          } else {
+            alert(`Failed to send friend request: ${data.message}`);
+          }
+        } catch (error) {
+          console.error("Error sending friend request:", error);
+          alert("An error occurred while sending the friend request.");
         }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert(data.message);
-        setResults((prevResults) =>
-          prevResults.map((user) =>
-            user.username === friendUsername
-              ? {
-                  ...user,
-                  friendPending: false,
-                  friendRequestReceiver: true,
-                }
-              : user
-          )
-        );
-      } else {
-        alert(`Failed to send friend request: ${data.message}`);
-      }
-    } catch (error) {
-      console.error("Error sending friend request:", error);
-      alert("An error occurred while sending the friend request.");
-    }
-  };
-  const handleAcceptFriend = async (friendUsername) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/accept_friends?username=${encodeURIComponent(friendUsername)}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+      };
+      
+      
+      const handleAcceptFriend = async (friendUsername) => {
+        try {
+          const response = await fetch(
+            `http://localhost:8080/accept_friends?username=${encodeURIComponent(friendUsername)}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              credentials: "include",
+            }
+          );
+      
+          if (response.ok) {
+            // Cập nhật trạng thái ngay lập tức sau khi chấp nhận kết bạn thành công
+            setFriendStatus((prevStatus) => ({
+              ...prevStatus,
+              friend: true, // Cập nhật trạng thái bạn bè thành true
+              friendPending: false, // Xóa trạng thái đang chờ (nếu có)
+              friendRequestReceiver: false, // Xóa trạng thái nhận yêu cầu kết bạn (nếu có)
+            }));
+          } else {
+            console.error("Failed to accept friend request.");
+          }
+        } catch (error) {
+          console.error("Error accepting friend request:", error);
         }
-      );
-  
-      const data = await response.json();
-  
-      if (response.ok) {
-        alert(data.message);
-        setResults((prevResults) =>
-          prevResults.map((user) =>
-            user.username === friendUsername
-              ? {
-                  ...user,
-                  friendPending: false,
-                  friend: true,
-                }
-              : user
-          )
-        );
-      } else {
-        alert(`Failed to accept friend request: ${data.error}`);
-      }
-    } catch (error) {
-      console.error("Error accepting friend request:", error);
-      alert("An error occurred while accepting the friend request.");
-    }
-  };
+      };
+      
     useEffect(() => {
         const fetchUserData = async () => {
           try {
@@ -107,18 +98,14 @@ function Profile_view() {
               credentials: "include",
             });
             const userData = await userResponse.json();
+            setFriendStatus({
+                friend: userData.friend,
+                friendPending: userData.friendPending,
+                friendRequestReceiver: userData.friendRequestReceiver,
+            });
             setUserProfile(userData);
     
-            // Fetch friends list
-            const friendsResponse = await fetch(`http://localhost:8080/api/profile/${username}/friends`, {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              credentials: "include",
-            });
-            const friendsData = await friendsResponse.json();
-            setFriends(friendsData);
+          
     
             // Fetch posts
             const postsResponse = await fetch(`http://localhost:8080/api/profile/${username}/posts`, {
@@ -171,17 +158,36 @@ function Profile_view() {
                  
                 </div>
 
+             
                 <div className="friend-status">
+                    {friendStatus.friend ? 
+
+                    ( <button className="btn-friend">Friends</button>) 
+
+                    :friendStatus.friendPending && !friendStatus.friendRequestReceiver ?
+
+                    (<button className='btn-accept' onClick={() => handleAcceptFriend(userProfile.username)}> Accept </button>)        
+
+                    : friendStatus.friendPending ?
+
+                     (<button className="btn-pending">Friend Request Sent</button>) 
+
                   
-                    <h4>
-                        {userProfile.friend
-                            ? 'Friend'
-                            : userProfile.friendPending
-                            ? 'Friend Request Sent'
-                            : 'Not Friends'}
-                    </h4>
-                    
+
+                     :
+                     (
+                        <button
+                            className="add-friend"
+                            onClick={() => handleFriendRequest(userProfile.username)}
+                        >
+                            Add Friend
+                        </button>
+                    )}
                 </div>
+
+
+                    
+        
 
                 <div className="friends-list">
                     <h3>Your Friends</h3>
