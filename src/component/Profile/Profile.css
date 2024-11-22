@@ -36,3 +36,54 @@
     margin-bottom: 20px;
 }
 
+/* Styling the file input container */
+.profile-avatar-upload {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Styling the file input */
+.profile-avatar-upload input[type="file"] {
+    display: none;
+}
+
+/* Custom label for the file input */
+.profile-avatar-upload label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.profile-avatar-upload label:hover {
+    background-color: #0056b3;
+}
+
+/* Styling the submit button */
+.profile-avatar-upload button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    padding-left: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.profile-avatar-upload button:hover {
+    background-color: #218838;
+}
+
+/* Styling the message */
+.profile-avatar-upload p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ff5722;
+}

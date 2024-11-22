@@ -74,7 +74,7 @@ function Navbar() {
                 <Link to="/messages" className="icon">
                     <img src={require('../../assets/images/message.png')} alt="Messages" />
                 </Link>
-                <Link to="/noti_list" className="icon">
+                <Link to="/noti" className="icon">
                     <img
                         src={hasNewNotification ? require('../../assets/images/noti_new.png') : require('../../assets/images/noti.png')}
                         alt="Notifications"

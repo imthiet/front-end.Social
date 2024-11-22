@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Navbar from "../Navbar/Navbar";
-import "./Search.css"; // Đảm bảo đã có CSS cho giao diện
+import "./Search.css";
 
 const SearchPage = () => {
   const [keyword, setKeyword] = useState(""); // Từ khóa tìm kiếm
@@ -9,10 +10,12 @@ const SearchPage = () => {
   const [page, setPage] = useState(0); // Trang hiện tại
   const [size, setSize] = useState(10); // Số lượng kết quả mỗi trang
 
+  const navigate = useNavigate(); // Sử dụng useNavigate để điều hướng
+
   // Hàm gọi API tìm kiếm
   const fetchResults = async (keyword, page, size) => {
     try {
-      setLoading(true); // Bắt đầu loading
+      setLoading(true);
 
       const response = await fetch(
         `http://localhost:8080/api/search?keyword=${encodeURIComponent(
@@ -23,7 +26,7 @@ const SearchPage = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include", // Gửi cookie cho phiên làm việc
+          credentials: "include",
         }
       );
 
@@ -36,57 +39,102 @@ const SearchPage = () => {
     } catch (error) {
       console.error("Error fetching search results:", error);
     } finally {
-      setLoading(false); // Kết thúc loading
+      setLoading(false);
     }
   };
 
-  // Gọi API khi từ khóa thay đổi
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      fetchResults(keyword, page, size); // Thêm page và size vào API call
+      fetchResults(keyword, page, size);
     }, 400);
 
     return () => clearTimeout(delayDebounceFn);
   }, [keyword, page, size]);
 
+  // Hàm chuyển hướng đến profile
+  const handleUserClick = (username) => {
+    navigate(`/profile_view/${username}`); // Điều hướng đến trang profile và truyền username
+  };
+
   // Hàm gửi yêu cầu kết bạn
   const handleAddFriend = async (friendUsername) => {
     try {
-        const response = await fetch(
-            `http://localhost:8080/add_friend?username=${encodeURIComponent(friendUsername)}`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-            }
-        );
-
-        const data = await response.json();
-
-        if (response.ok) {
-            // Cập nhật giao diện sau khi gửi yêu cầu thành công
-            alert(data.message);
-            setResults((prevResults) =>
-                prevResults.map((user) =>
-                    user.username === friendUsername
-                        ? { ...user, friendPending: data.friendPending, friendRequestReceiver: data.friendRequestReceiver }
-                        : user
-                )
-            );
-        } else {
-            alert(`Failed to send friend request: ${data.message}`);
+      const response = await fetch(
+        `http://localhost:8080/add_friend?username=${encodeURIComponent(
+          friendUsername
+        )}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
         }
-    } catch (error) {
-        console.error("Error sending friend request:", error);
-        alert("An error occurred while sending the friend request.");
-    }
-};
+      );
 
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.message);
+        setResults((prevResults) =>
+          prevResults.map((user) =>
+            user.username === friendUsername
+              ? {
+                  ...user,
+                  friendPending: false,
+                  friendRequestReceiver: true,
+                }
+              : user
+          )
+        );
+      } else {
+        alert(`Failed to send friend request: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error sending friend request:", error);
+      alert("An error occurred while sending the friend request.");
+    }
+  };
+  const handleAcceptFriend = async (friendUsername) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/accept_friends?username=${encodeURIComponent(friendUsername)}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        alert(data.message);
+        setResults((prevResults) =>
+          prevResults.map((user) =>
+            user.username === friendUsername
+              ? {
+                  ...user,
+                  friendPending: false,
+                  friend: true,
+                }
+              : user
+          )
+        );
+      } else {
+        alert(`Failed to accept friend request: ${data.error}`);
+      }
+    } catch (error) {
+      console.error("Error accepting friend request:", error);
+      alert("An error occurred while accepting the friend request.");
+    }
+  };
+  
 
   return (
-    <div className="Search-container container mt-40">
+    <div className="Search-container container mt-40 ">
       <Navbar />
 
       <div>
@@ -99,49 +147,53 @@ const SearchPage = () => {
           style={{ width: "100%", padding: "10px", marginBottom: "20px" }}
         />
         {loading ? (
-          <div className="loader"></div> // Hiển thị loader khi đang tải
+          <div className="loader"></div>
         ) : (
           <>
-           <ul className="list-group">
-                {results.map((user) => (
-                  <li
-                    key={user.username}
-                    className="list-group-item d-flex justify-content-between align-items-center"
+            <ul className="list-group">
+              {results.map((user) => (
+                <li
+                  key={user.username}
+                  className="list-group-item d-flex justify-content-between align-items-center"
+                  onClick={() => handleUserClick(user.username)} // Thêm sự kiện click
+                  style={{ cursor: "pointer" }} // Thay đổi con trỏ để người dùng biết có thể click
+                >
+                  <span>
+                    {user.username} - {user.email}
+                  </span>
+                  {user.friendPending && !user.friendRequestReceiver ? (
+                    <button
+                    className="btn btn-success"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAcceptFriend(user.username);
+                    }}
                   >
-                    <span>
-                      {user.username} - {user.email}
-                    </span>
-                    {/* Check if the user has received a friend request */}
-                    {user.friendRequestReceiver ? (
-                      <button className="btn btn-success">Accept</button>
-                    ) 
-                    // Check if the user has a pending request from the current user
-                    : user.friendPending ? (
-                      <button className="btn btn-secondary" disabled>
-                        Pending
-                      </button>
-                    ) 
-                    // If the user is already a friend
-                    : user.friend ? (
-                      <button className="btn btn-primary" disabled>
-                        Friend
-                      </button>
-                    ) 
-                    // Otherwise, show the "Add Friend" button
-                    : (
-                      <button
-                        className="btn btn-outline-primary"
-                        onClick={() => handleAddFriend(user.username)}
-                      >
-                        Add Friend
-                      </button>
-                    )}
-                  </li>
-                ))}
-              </ul>
+                    Accept
+                  </button>
+                  
+                  ) : user.friendRequestReceiver ? (
+                    <button className="btn btn-warning">Pending</button>
+                  ) : user.friend ? (
+                    <button className="btn btn-primary" disabled>
+                      Friend
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Ngăn sự kiện click lan đến li
+                        handleAddFriend(user.username);
+                      }}
+                    >
+                      Add Friend
+                    </button>
+                  )}
 
+                </li>
+              ))}
+            </ul>
 
-            {/* Phân trang */}
             <div className="pagination mt-3">
               <button
                 onClick={() => setPage((prevPage) => Math.max(prevPage - 1, 0))}
