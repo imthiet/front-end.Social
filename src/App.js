@@ -10,6 +10,11 @@ import SearchPage from './component/Search/Search';
 import Profile from './component/Profile/Profile';
 import Profile_view from './component/Profile/Profile_view';
 import Noti from './component/Noti/Noti';
+import Manage_web from './component/Admin/Manage_web';
+import Manage_post from './component/Admin/Manage_post/Manage_post';
+import Manage_user from './component/Admin/Manage_user/Manage_user';
+import Manage_progress from './component/Admin/Manage_progress/Manage_progress';
+import Edit_user from './component/Admin/Manage_user/Edit_user';
 
 
 
@@ -31,6 +36,11 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/noti" element={<Noti />} />
             <Route path="/profile_view/:username" element={<Profile_view />} />
+            <Route path="/Manage_web" element={<Manage_web />} />
+            <Route path="/Manage_post" element={<Manage_post />} />
+            <Route path="/Manage_user" element={<Manage_user />} />
+            <Route path="/Manage_progress" element={<Manage_progress />} />
+            <Route path="/Edit_user/:username" element={<Edit_user />} />
 
           </Routes>
       </Router>

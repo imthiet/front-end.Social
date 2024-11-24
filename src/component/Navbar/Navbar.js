@@ -6,6 +6,8 @@ function Navbar() {
     const [showDropdown, setShowDropdown] = useState(false);
     const [hasNewNotification, setHasNewNotification] = useState(false);
     const [username, setUsername] = useState('');
+    const isAdmin = localStorage.getItem("isAdmin") === "true";
+
     const navigate = useNavigate(); // Use navigate at the top level
 
     useEffect(() => {
@@ -46,6 +48,7 @@ function Navbar() {
                 if (response.ok) {
                     localStorage.removeItem('username'); // Clear username
                     localStorage.removeItem('auth'); // Clear auth
+                    localStorage.removeItem('isAdmin');
                     navigate('/'); // Redirect to login
                 } else {
                     console.error('Failed to logout:', response.status);
@@ -97,6 +100,7 @@ function Navbar() {
                 <span>{username}</span>
                 <div className={`dropdown-content ${showDropdown ? 'show' : ''}`}>
                     <Link to="/profile">Profile</Link>
+                    {isAdmin && <Link to="/Manage_web">Manage Web</Link>} {/* Hiển thị nếu là Admin */}
                     <a onClick={handleLogout}>Logout</a>
                 </div>
             </div>

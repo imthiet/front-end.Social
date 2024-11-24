@@ -34,9 +34,11 @@ const Login = () => {
             const data = await response.json();
             localStorage.setItem('auth', 'true');
             localStorage.setItem('username', username);
+            localStorage.setItem('isAdmin',data.isAdmin);
             localStorage.setItem('userId', data.userId);  // Store userId in localStorage
-    
-            window.location.href = '/Newsfeed';
+            console.log(data.isAdmin);
+            navigate('/Newsfeed');
+
         } catch (err) {
             setError(err.message);
         } finally {

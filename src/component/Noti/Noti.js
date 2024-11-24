@@ -33,7 +33,7 @@ function Noti() {
     }, []);
 
     if (isLoading) {
-        return <div>Loading notifications...</div>;
+        return <div className="loader"></div>;
     }
 
     if (notifications.length === 0) {

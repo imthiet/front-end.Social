@@ -1,0 +1,22 @@
+/* CSS cho SideBar */
+.sidebar-container {
+    position: fixed; /* Cố định sidebar */
+    top: 0;
+    left: 0;
+    width: 250px; /* Đảm bảo chiều rộng cố định */
+    height: 100vh; /* Chiều cao toàn màn hình */
+    background-color: #f1dede; /* Màu nền */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Tạo hiệu ứng đổ bóng */
+}
+
+/* CSS cho nội dung chính */
+.mu-container {
+    /* display: flex;  */
+    flex-direction: column; /* Sắp xếp các phần tử theo chiều dọc */
+    justify-content: center; /* Căn giữa nội dung theo chiều dọc */
+    align-items: center; /* Căn giữa nội dung theo chiều ngang */
+    margin-left: 260px; /* Đẩy nội dung sang phải, khớp với chiều rộng sidebar */
+    padding: 20px; /* Thêm khoảng cách để nội dung không sát lề */
+    min-height: 100vh; /* Đảm bảo nội dung luôn chiếm hết chiều cao màn hình */
+    background-color: #fff; /* Màu nền (nếu cần) */
+}
