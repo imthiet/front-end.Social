@@ -141,17 +141,22 @@
 }
 
 .submit-report {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 8px 16px;
+    width: 20%; /* Điều chỉnh chiều rộng của button */
+    padding: 5px;
+    background-color: #ffffff;
+    color: #0e0e0e;
+    border: 2px solid;
+    border-radius: 8px;
     cursor: pointer;
-    border-radius: 4px;
-    align-self: flex-end;
+    margin-left: 40%;
+    font-weight: bold;
+  
+    box-shadow: -5px -5px 5px rgba(18, 3, 3, 0.1); /* X Offset, Y Offset, Blur, Màu */
 }
 
 .submit-report:hover {
-    background-color: #d32f2f;
+    background-color: #00285A;
+    color: #FFFFFF;
 }
 
 .error-message {

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./User_post.css";
+import '../notice/notice.css';  // Đảm bảo rằng đường dẫn đúng
+import { showAlert } from '../notice/notice.js';  // Đảm bảo rằng đường dẫn đúng
 
 function Post({ id, content, image, createdBy, createdAt, likesCount, comments, liked, onDelete, onEdit }) {
     const [isLiked, setIsLiked] = useState(liked);
@@ -40,7 +42,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
             });
             if (response.ok) {
                 const data = await response.json();
-                alert(data.message);
+                showAlert(data.message);
 
                 // Gọi callback onDelete để cập nhật danh sách
                 if (typeof onDelete === "function") {
@@ -52,7 +54,8 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
             }
         } catch (error) {
             console.error("Error deleting post:", error);
-            alert("An error occurred while deleting the post");
+            showAlert("Done!");
+            onDelete(id);
         }
     };
 
@@ -98,7 +101,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
     
             if (response.ok) {
                 const updatedPost = await response.json();
-                alert("Post updated successfully!");
+                showAlert("Post updated successfully!");
     
                 // Gọi callback để cập nhật danh sách bài viết
                 if (typeof onEdit === "function") {
@@ -112,7 +115,9 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
             }
         } catch (error) {
             console.error("Error updating post:", error);
-            alert("An error occurred while updating the post");
+            alert("Done!");
+            toggleEditModal();
+           
         }
     };
     

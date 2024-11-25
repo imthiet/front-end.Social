@@ -33,12 +33,13 @@ h1 {
 }
 
 .delete-btn {
-    background-color: red;
+    background-color: rgb(210, 232, 10);
     color: white;
     border: none;
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 5px;
+    padding-right:10px ;
 }
 
 .delete-btn:hover {

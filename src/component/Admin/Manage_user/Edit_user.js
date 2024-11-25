@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import SideBar from "../Manage_web";
+import './Edit_user.css';
+import '../../notice/notice.css';  // Đi lên 2 cấp và vào thư mục notice
+import { showAlert } from '../../notice/notice';  // Đi lên 2 cấp và vào thư mục notice
+
 
 const Edit_user = () => {
   const { username } = useParams(); // Lấy username từ URL
@@ -42,7 +46,7 @@ const Edit_user = () => {
         { withCredentials: true } 
       );
       // Hiển thị thông báo thành công
-    alert("User updated successfully!");
+      alert("User updated successfully!");
     } catch (err) {
       setError("Failed to update user.");
     }
@@ -61,7 +65,7 @@ const Edit_user = () => {
   if (error) return <div className="alert alert-danger">{error}</div>;
 
   return (
-    <div className="mu-container">
+    <div className="ma-container">
       <div className="sidebar-container">
         <SideBar />
       </div>
@@ -75,7 +79,7 @@ const Edit_user = () => {
             name="username"
             value={user.username}
             onChange={handleChange}
-            disabled
+           
             className="form-control"
           />
         </div>
@@ -99,6 +103,7 @@ const Edit_user = () => {
             value={user.verificationCode}
             onChange={handleChange}
             className="form-control"
+            disabled
           />
         </div>
         <div className="form-group form-check">
@@ -120,7 +125,7 @@ const Edit_user = () => {
               type="checkbox"
               id="isAdmin"
               name="isAdmin"
-              checked={user.admin}
+              checked={user.isAdmin}
               onChange={handleChange}
               className="form-check-input"
             />

@@ -29,7 +29,7 @@
     font-weight: bold;
     margin-bottom: 10px;
     background-color: #e9ecef;
-    color: #495057;
+    color: #0e0e0f;
     border: none;
     transition: background-color 0.3s, color 0.3s;
     text-align: center;
@@ -37,7 +37,7 @@
 }
 
 .list-group-item:hover {
-    background-color: #007bff;
+    background-color: #00285A;
     color: white;
 }
 

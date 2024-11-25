@@ -138,16 +138,6 @@ function Profile() {
 
                 </div>
 
-                <div className="friend-status">
-                    <h3>Friend Status</h3>
-                    <p>
-                        {userProfile.friend
-                            ? 'Friend'
-                            : userProfile.friendPending
-                            ? 'Friend Request Sent'
-                            : 'Not Friends'}
-                    </p>
-                </div>
 
                 <div className="friends-list">
                     <h3>Your Friends</h3>

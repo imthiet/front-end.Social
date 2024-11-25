@@ -28,10 +28,10 @@ const Manage_web = () => {
                     <Link to="/progress" className="list-group-item list-group-item-action">
                         Chart
                     </Link>
-                    <button className="btn btn-secondary mb-3" onClick={handleBack1Click}>
+                    <button className="btn btn-primary mb-3" onClick={handleBack1Click}>
                     Back
                 </button>
-                    <button className="btn btn-warning mb-3" onClick={handleBackClick}>
+                    <button className="btn btn-dark mb-3" onClick={handleBackClick}>
                     Exit 
                 </button>
                
@@ -39,7 +39,7 @@ const Manage_web = () => {
                 </div>
             </div>
             <div className="content">
-           
+                
           
                 <Outlet />
             </div>

@@ -134,11 +134,11 @@ const SearchPage = () => {
   
 
   return (
-    <div className="Search-container container mt-40 ">
+    <div className="Search-container container mt-60 ">
       <Navbar />
 
-      <div>
-        <h2>Search Friend</h2>
+      <div className="inner-search container mt-60">
+        <h4>Search Friend</h4>
         <input
           type="text"
           placeholder="Enter keyword..."

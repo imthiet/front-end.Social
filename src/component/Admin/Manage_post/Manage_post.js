@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import SideBar from "../Manage_web";
 import './Manage_post.css';
 import Modal from 'react-modal';
-
+import '../../notice/notice.css';  // Đảm bảo rằng đường dẫn đúng
+import { showAlert } from '../../notice/notice';
 
 function Manage_post() {
     const [reports, setReports] = useState([]);
@@ -49,7 +50,7 @@ function Manage_post() {
               });
   
               if (response.ok) {
-                  alert('Post deleted successfully!');
+                alert('Post deleted successfully!');
                   // Cập nhật lại giao diện (xóa bài viết khỏi danh sách)
                   setReports(reports.filter(report => report.postId !== postId));
               } else {
@@ -64,7 +65,29 @@ function Manage_post() {
       }
   };
   
+  const handleIgnore = async (reportId) => {
+    const isConfirmed = window.confirm("Are you sure you want to ignore this post?");
+    if (isConfirmed) {
+        try {
+            const response = await fetch(`http://localhost:8080/api/reports/ignore/${reportId}`, {
+                method: 'DELETE',
+                credentials: 'include',
+            });
 
+            if (response.ok) {
+                alert('Post ignored!');
+                setReports(reports.filter(report => report.reportId !== reportId));
+            } else if (response.status === 404) {
+                alert('Post not found in the reported list.');
+            } else {
+                alert(`Server error: ${response.statusText}`);
+            }
+        } catch (error) {
+            console.error("Error ignoring post:", error);
+            alert('Error ignoring post. Please try again later.');
+        }
+    }
+};
 
     return (
         <div className="container">
@@ -75,6 +98,7 @@ function Manage_post() {
             <table className="report-table">
                 <thead>
                     <tr>
+                        <th>Reported ID</th>
                         <th>Post ID</th>
                         <th>Reason</th>
                         <th>Reported By</th>
@@ -85,7 +109,8 @@ function Manage_post() {
                 </thead>
                 <tbody>
                     {reports.map((report) => (
-                        <tr key={report.postId}>
+                        <tr key={report.reportId}>
+                            <td>{report.reportId}</td>
                             <td>{report.postId}</td>
                             <td>{report.reason}</td>
                             <td>{report.reportedBy}</td>
@@ -106,6 +131,15 @@ function Manage_post() {
                                 >
                                     Delete
                                 </button>
+
+                                <button
+                                    className="delete-btn"
+                                    onClick={() => handleIgnore(report.reportId)}
+                                >
+                                    Ignore
+                                </button>
+
+
                             </td>
                         </tr>
                     ))}

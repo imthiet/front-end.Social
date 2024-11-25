@@ -3,6 +3,10 @@ import Post from './post';
 import './Newsfeed.css';
 import Navbar from '../Navbar/Navbar';
 
+// Import hàm showAlert từ notice.js
+import '../notice/notice.css';  // Đảm bảo rằng đường dẫn đúng
+import { showAlert } from '../notice/notice.js';  // Đảm bảo rằng đường dẫn đúng
+
 function Newsfeed() {
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -46,36 +50,40 @@ function Newsfeed() {
 
             const data = await response.json();
             if (data.success) {
-                alert(data.message);
-                // Cập nhật danh sách bài viết
+                showAlert(data.message); 
                 setPosts((prevPosts) => [
                     {
-                        id: Math.random(), // Tạo ID tạm thời
+                        id: Math.random(), 
                         content,
-                        image: URL.createObjectURL(file), // Hiển thị ảnh ngay lập tức
-                        createdBy: 'Bạn', // Giả định người tạo là chính mình
+                        image: URL.createObjectURL(file),
+                        createdBy: 'Bạn', 
                         createdAt: new Date().toISOString(),
                         likesCount: 0,
                         comments: [],
                     },
                     ...prevPosts,
                 ]);
-                setShowCreatePost(false); // Ẩn form sau khi tạo xong
+                setShowCreatePost(false); 
             } else {
-                alert(data.message);
+                showAlert(data.message);
             }
         } catch (error) {
             console.error('Error creating post:', error);
-            alert('An error occurred while creating the post.');
+            showAlert('An error occurred while creating the post.'); // Thay vì alert
         }
     };
     
-  
-
+   // Các phần còn lại không thay đổi
 
     return (
         <div className='main-container'>
             <Navbar />
+            
+            {/* Thêm thẻ thông báo */}
+            <div id="notification" className="notification hidden" >
+                <span id="notification-message"></span>
+            </div>
+
             <div className="createPost-container">
                 <button className = 'open-btn' onClick={() => setShowCreatePost((prev) => !prev)}>
                     {showCreatePost ? 'Đóng' : 'Thêm bài viết mới'}
@@ -114,11 +122,12 @@ function CreatePost({ onCreatePost }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!content.trim()) {
-            alert('Nội dung không được để trống.');
+            showAlert('Nội dung không được để trống.'); // Thay vì alert
             return;
         }
         onCreatePost(content, file);
     };
+
     const handleClear = () => {
         setContent(''); // Xóa nội dung trong textarea
         setFile(null);  // Xóa file đã chọn

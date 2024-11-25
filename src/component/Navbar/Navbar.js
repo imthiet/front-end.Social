@@ -100,6 +100,7 @@ function Navbar() {
                 <span>{username}</span>
                 <div className={`dropdown-content ${showDropdown ? 'show' : ''}`}>
                     <Link to="/profile">Profile</Link>
+                    <Link to="/Edit_profile">Edit Profile</Link>
                     {isAdmin && <Link to="/Manage_web">Manage Web</Link>} {/* Hiển thị nếu là Admin */}
                     <a onClick={handleLogout}>Logout</a>
                 </div>

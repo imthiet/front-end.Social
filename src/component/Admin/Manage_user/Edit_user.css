@@ -1,0 +1,10 @@
+.ma-container
+{
+    flex-direction: column; /* Sắp xếp các phần tử theo chiều dọc */
+    justify-content: center; /* Căn giữa nội dung theo chiều dọc */
+    align-items: center; /* Căn giữa nội dung theo chiều ngang */
+    margin-left: 260px; /* Đẩy nội dung sang phải, khớp với chiều rộng sidebar */
+    padding: 20px; /* Thêm khoảng cách để nội dung không sát lề */
+    min-height: 100vh; /* Đảm bảo nội dung luôn chiếm hết chiều cao màn hình */
+    background-color: #fff; /* Màu nền (nếu cần) */
+}
