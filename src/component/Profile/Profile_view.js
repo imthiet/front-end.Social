@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './Profile.css';
 import Navbar from '../Navbar/Navbar';
 import Post from './User_post';
-
-import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useParams,useNavigate } from "react-router-dom";
 
 
 
@@ -13,12 +13,44 @@ function Profile_view() {
     const [friends, setFriends] = useState([]);
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
 
     const [friendStatus, setFriendStatus] = useState({
         friend: false,
         friendPending: false,
         friendRequestReceiver: false,
     });
+    axios.defaults.withCredentials = true;
+
+    const handleOpenChat = async (receiverUsername) => {
+      try {
+        // Gửi yêu cầu đến API để tạo hoặc mở chat
+        const response = await axios.post(
+          `http://localhost:8080/api/chat/createChat/${receiverUsername}`,
+          {
+            withCredentials: true,
+          }
+        );
+    
+        // Lấy ID của chat từ response
+        const chatId = response.data;
+    
+        // Chuyển hướng hoặc mở chatbox tương ứng
+        if (chatId) {
+          console.log(`Chat ID: ${chatId}`);
+          // Ví dụ: Hiển thị chatbox hoặc chuyển hướng sang trang chat
+          openChatBox(chatId);
+        }
+      } catch (error) {
+        console.error("Failed to open chat:", error.response?.data || error.message);
+      }
+    };
+    
+    // Hàm để hiển thị chatbox (tuỳ bạn triển khai)
+    const openChatBox = (chatId) => {
+      console.log(`Opening chat box with ID: ${chatId}`);
+      navigate(`/messages`);
+    };
     
      // Hàm gửi yêu cầu kết bạn
      const handleFriendRequest = async (friendUsername) => {
@@ -130,104 +162,101 @@ function Profile_view() {
 
 
 
-    if (isLoading) {
-        return <div className="loader"></div>;
-    }
-
-    if (!userProfile) {
-        return <div>Unable to load user data.</div>;
-    }
+   
+  
 
     return (
-        <div className='profile_main-container'>
-            <Navbar />
-            <div className="profile-container">
-                <div className="profile-header">
-                    <h1>{userProfile.username}</h1>
-                    <p>{userProfile.email}</p>
-                    {userProfile.image ? (
-                        <img
-                            src={`data:image/jpeg;base64,${userProfile.image}`}
-                            alt="User Avatar"
-                            className="profile-image"
-                        />
-                    ) : (
-                        <div className="default-avatar">No Image</div>
-                    )}
-
-                 
-                </div>
-
-             
-                <div className="friend-status">
-                    {friendStatus.friend ? 
-
-                    ( <button className="btn-friend">Friends</button>) 
-
-                    :friendStatus.friendPending && !friendStatus.friendRequestReceiver ?
-
-                    (<button className='btn-accept' onClick={() => handleAcceptFriend(userProfile.username)}> Accept </button>)        
-
-                    : friendStatus.friendPending ?
-
-                     (<button className="btn-pending">Friend Request Sent</button>) 
-
-                  
-
-                     :
-                     (
-                        <button
-                            className="add-friend"
-                            onClick={() => handleFriendRequest(userProfile.username)}
-                        >
-                            Add Friend
-                        </button>
-                    )}
-                </div>
-
-
-                    
-        
-
-                <div className="friends-list">
-                    <h3>Your Friends</h3>
-                    {friends.length === 0 ? (
-                        <p>No friends yet</p>
-                    ) : (
-                        <ul>
-                            {friends.map((friend) => (
-                                <li key={friend.id}>
-                                    <span>{friend.username}</span> - <span>{friend.email}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
-            </div>
-
-            <div className="posts-list">
-                <h3>Your Posts</h3>
-                {posts.length === 0 ? (
-                    <p>No posts yet</p>
+      <div className="profile_main-container">
+        <Navbar />
+        <div className="profile-container">
+          <div className="profile-header">
+            {isLoading ? (
+              <div className="loader"></div>
+            ) : (
+              <>
+                <h1>{userProfile.username}</h1>
+                <p>{userProfile.email}</p>
+                {userProfile.image ? (
+                  <img
+                    src={`data:image/jpeg;base64,${userProfile.image}`}
+                    alt="User Avatar"
+                    className="profile-image"
+                  />
                 ) : (
-                    posts.map((post) => (
-                        <Post
-                            key={post.id}
-                            id={post.id}
-                            content={post.content}
-                            image={post.image}
-                            createdBy={post.createdBy}
-                            createdAt={post.createdAt}
-                            likesCount={post.likesCount}
-                            comments={post.comments}
-                            liked={post.liked}
-                        />
-                    ))
+                  <div className="default-avatar">No Image</div>
                 )}
-            </div>
-            
+              </>
+            )}
+          </div>
+    
+          <div className="friend-status">
+            {friendStatus.friend ? (
+              <button className="prf_v-btn">Friends</button>
+            ) : friendStatus.friendPending && !friendStatus.friendRequestReceiver ? (
+              <button
+                className="btn-accept"
+                onClick={() => handleAcceptFriend(userProfile.username)}
+              >
+                Accept
+              </button>
+            ) : friendStatus.friendPending ? (
+              <button className="btn-pending">Friend Request Sent</button>
+            ) : (
+              <button
+                className="add-friend"
+                onClick={() => handleFriendRequest(userProfile.username)}
+              >
+                Add Friend
+              </button>
+            )}
+           <button
+            className="prf_v-btn"
+            onClick={() => handleOpenChat(userProfile.username)}
+          >
+            Message
+          </button>
+
+          </div>
+    
+          <div className="friends-list">
+            <h3>Friends</h3>
+            {friends.length === 0 ? (
+              <p>Unable to show friend!</p>
+            ) : (
+              <ul>
+                {friends.map((friend) => (
+                  <li key={friend.id}>
+                    <span>{friend.username}</span> - <span>{friend.email}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
+    
+        <div className="posts-list">
+          <h3>Your Posts</h3>
+          {posts.length === 0 ? (
+            <p>No posts yet</p>
+          ) : (
+            posts.map((post) => (
+              <Post
+                key={post.id}
+                id={post.id}
+                content={post.content}
+                image={post.image}
+                createdBy={post.createdBy}
+                createdAt={post.createdAt}
+                likesCount={post.likesCount}
+                comments={post.comments}
+                liked={post.liked}
+              />
+            ))
+          )}
+        </div>
+      </div>
     );
+    
 }
 
 export default Profile_view;

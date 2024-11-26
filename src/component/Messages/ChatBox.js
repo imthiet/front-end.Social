@@ -9,13 +9,13 @@ function ChatBox({ user, onClose }) {
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const stompClient = useRef(null);
-
+  const own_name = localStorage.getItem('username');
   const fetchMessages = async () => {
     try {
       setLoading(true);
       const response = await axios.get(`http://localhost:8080/api/chat/${user.chatId}`, {
         withCredentials: true,
-        params: { pageSize: 100 },
+        
       });
       setMessages(response.data.content);
     } catch (error) {
@@ -60,9 +60,10 @@ function ChatBox({ user, onClose }) {
     if (newMessage.trim() && stompClient.current && stompClient.current.connected) {
       const message = {
         content: newMessage,
-        senderId: localStorage.getItem('userId'),
-        receiverId: user.userId,
-        chatId: user.chatId,
+        senderId: localStorage.getItem('userId'), // ID người gửi
+        senderUsername: own_name,          // Username người gửi
+        receiverId: user.userId,                // ID người nhận
+        chatId: user.chatId,                    // ID cuộc trò chuyện
       };
   
       // Gửi tin nhắn qua WebSocket
@@ -71,18 +72,13 @@ function ChatBox({ user, onClose }) {
         body: JSON.stringify(message),
       });
   
-      // Cập nhật tin nhắn ngay lập tức trong UI của người gửi
-      // setMessages((prevMessages) => [
-      //   ...prevMessages,
-      //   { ...message, timestamp: new Date().toISOString() },
-      // ]);
-  
-      // Dọn sạch input message
+      // Clear input
       setNewMessage('');
     } else {
       console.error("WebSocket is not connected");
     }
   };
+  
   
   
   return (
@@ -96,7 +92,7 @@ function ChatBox({ user, onClose }) {
         <div className="loader"></div>
       ) : (
         <div className="messages">
-          {messages.map((message, index) => (
+          {messages.slice().reverse().map((message, index) => (
             <div
               key={index}
               className={`message ${message.senderUsername !== user.username ? 'sent' : 'receiver'}`}

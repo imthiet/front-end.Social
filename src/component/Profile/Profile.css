@@ -34,6 +34,7 @@
 
 .friend-status, .user-posts, .friends-list {
     margin-bottom: 20px;
+    padding-top: 20px;
 }
 
 /* Styling the file input container */
@@ -113,3 +114,23 @@
     background-color: green;
     color: white;
 }
+
+.prf_v-btn
+{
+  width: 10%; /* Điều chỉnh chiều rộng của button */
+  padding: 5px;
+  background-color: #ffffff;
+  color: #0e0e0e;
+  border: 2px solid;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 20px;
+  font-weight: bold;
+}
+
+.prf_v-btn:hover
+{
+  background-color: #00285A;
+  color: #FFFFFF;
+}
+

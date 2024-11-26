@@ -6,6 +6,7 @@ import './Messages.css';
 function Messages() {
   const [usersWithMessages, setUsersWithMessages] = useState([]);
   const [error, setError] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState(null); // State for selected user
 
@@ -37,17 +38,22 @@ function Messages() {
   const handleUserClick = (user) => {
     setSelectedUser(selectedUser === user ? null : user);
   };
+  const toggleDropdown = () => {
+    setShowDropdown((prev) => !prev);
+};
+  const handleDeleteMsg = () => {
+    console.log("Message Click");
+    // Thực hiện hành động khi người dùng click vào "Report"
+  };
 
   return (
-    <div className='maincontroller'>
+    <div className="maincontroller">
       <Navbar />
 
       <div className="messages-container">
         {error && <p>{error}</p>}
         {isLoading ? (
-         
-            <div className="loader"></div>
-         
+          <div className="loader"></div>
         ) : (
           <ul className="message-list">
             {usersWithMessages.length === 0 ? (
@@ -60,6 +66,15 @@ function Messages() {
                   onClick={() => setSelectedUser(user)} // Set selected user on click
                 >
                   <div className="post-container">
+                     {/* Dropdown */}
+                  <div className="dropdown-container">
+                    <button className="dropdown-toggle" onClick={toggleDropdown}>
+                      ⋮
+                    </button>
+                    <ul className={`dropdown-menu ${showDropdown ? "show" : ""}`}>
+                      <li onClick={handleDeleteMsg}>Delete Msg</li>
+                    </ul>
+                  </div>
                     <h4>{user.username}</h4>
                     <p>{user.lastMessageContent || "No message"}</p>
                     <p className="author">
@@ -73,13 +88,18 @@ function Messages() {
                       />
                       <span>View Chat</span>
                     </div>
+                   
                   </div>
+
+                  
                 </li>
               ))
             )}
           </ul>
         )}
       </div>
+    
+  
 
       {/* ChatBox will show when a user is selected */}
       {selectedUser && (

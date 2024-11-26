@@ -41,6 +41,12 @@ function Noti() {
         navigate(`/profile_view/${username}`); // Điều hướng đến trang profile và truyền username
     };
 
+    const handleNotiMsgClick = () =>
+    {
+        console.log('Goin to msg');
+        navigate(`/messages`);
+    };
+
    
 
  
@@ -59,11 +65,11 @@ function Noti() {
                     margin: "0 auto",
                 }}
             >
-              {isLoading ? (
-         
-         <div className="loader"></div>
-      
-     ) : (
+                            {isLoading ? (
+                        
+                        <div className="loader"></div>
+                    
+                    ) : (
                     <ul style={{ listStyleType: "none", padding: "0" }}>
                         {notifications.map((notification, index) => (
                             <li
@@ -77,13 +83,16 @@ function Noti() {
                                     boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
                                     cursor: "pointer", // Add pointer cursor
                                 }}
-                                onClick={() =>
-                                    notification.type === "ADD_FRIEND"
-                                        ? handleNotiClick(notification.sender_username)
-                                        : notification.type === "LIKE_COMMENT_SHARE"
-                                        ? handleNotiClick("username_main") // Replace with correct variable if needed
-                                        : null
-                                }
+                                onClick={() => {
+                                    if (notification.type === "ADD_FRIEND") {
+                                      handleNotiClick(notification.sender_username);
+                                    } else if (notification.type === "LIKE_COMMENT_SHARE") {
+                                      handleNotiClick(username_main); 
+                                    } else {
+                                      handleNotiMsgClick();  // Xử lý tất cả các trường hợp còn lại
+                                    }
+                                  }}
+                                  
                             >
                                 <p style={{ margin: "5px 0", fontWeight: "bold" }}>
                                     {notification.contentnoti}
@@ -116,7 +125,7 @@ function Noti() {
                                         borderRadius: "5px",
                                     }}
                                 >
-                                    {notification.type || "General"}
+                                    {notification.type || "Message"}
                                 </span>
                             </li>
                         ))}
