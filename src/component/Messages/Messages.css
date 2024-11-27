@@ -91,4 +91,15 @@
     display: flex;
     gap: 5px;
   }
-  
+  .delete-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 10px;
+    color: red;
+  }
+  .delete-icon:hover
+  {
+    background-color: #ccc;
+  }

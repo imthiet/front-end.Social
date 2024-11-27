@@ -85,7 +85,7 @@ function ChatBox({ user, onClose }) {
     <div className="chatbox">
       <h4>{user.username}</h4>
       <button className="close-button" onClick={onClose}>
-        ~
+        =
       </button>
 
       {loading ? (

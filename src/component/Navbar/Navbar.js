@@ -83,7 +83,7 @@ function Navbar() {
                         alt="Notifications"
                     />
                 </Link>
-                <Link to="/users" className="icon">
+                <Link to="/msg" className="icon">
                     <img src={require('../../assets/images/setting.png')} alt="Settings" />
                 </Link>
                 <Link to="/search_page" className="icon">

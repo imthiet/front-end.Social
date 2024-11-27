@@ -14,6 +14,7 @@ function Profile_view() {
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const [showDropdown, setShowDropdown] = useState(false);
 
     const [friendStatus, setFriendStatus] = useState({
         friend: false,
@@ -22,6 +23,13 @@ function Profile_view() {
     });
     axios.defaults.withCredentials = true;
 
+
+    const toggleDropdown = (e) => {
+      e.stopPropagation(); // Ngăn sự kiện click lan đến các phần tử cha
+      setShowDropdown((prev) => !prev);
+    };
+
+   
     const handleOpenChat = async (receiverUsername) => {
       try {
         // Gửi yêu cầu đến API để tạo hoặc mở chat
@@ -117,6 +125,31 @@ function Profile_view() {
           console.error("Error accepting friend request:", error);
         }
       };
+      const handleCancelClick = async (username) => {
+        console.log(username);
+        try {
+          const response = await fetch(`http://localhost:8080/friendship/cancel/${username}`, {
+            method: "POST", // Gửi yêu cầu POST
+            headers: {
+              "Content-Type": "application/json", // Đảm bảo gửi dữ liệu dưới dạng JSON
+            },
+            credentials: "include", // Gửi cookies cùng với yêu cầu (nếu có)
+          });
+      
+          if (response.ok) { // Kiểm tra nếu trạng thái HTTP là 2xx
+            const data = await response.json();
+            alert("Friendship successfully canceled.");
+            // Cập nhật trạng thái trên giao diện nếu cần
+          } else {
+            const errorData = await response.json();
+            alert(errorData.error || "Failed to cancel friendship.");
+          }
+        } catch (error) {
+          console.error("Error while canceling friendship:", error);
+          alert("An error occurred. Please try again later.");
+        }
+      };
+      
       
     useEffect(() => {
         const fetchUserData = async () => {
@@ -157,13 +190,6 @@ function Profile_view() {
         };
         fetchUserData();
     }, []);
-
- 
-
-
-
-   
-  
 
     return (
       <div className="profile_main-container">
@@ -215,6 +241,20 @@ function Profile_view() {
           >
             Message
           </button>
+          <button className="closee-button" onClick={toggleDropdown}>
+             =
+            </button>
+
+            {/* Dropdown menu */}
+            {showDropdown && (
+              <div className="dropdown-menuu">
+                <button className="dropdown-itemm" onClick={handleCancelClick.bind(null, userProfile.username)}>
+                  Cancel Friend
+                </button>
+
+              </div>
+            )}
+
 
           </div>
     

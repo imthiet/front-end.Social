@@ -133,4 +133,12 @@
   background-color: #00285A;
   color: #FFFFFF;
 }
-
+.closee-button {
+    background-color: #626467;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  

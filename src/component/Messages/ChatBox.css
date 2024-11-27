@@ -94,6 +94,9 @@
   }
   
   .close-button:hover {
-    color: #555;
+    transform: scale(0.7);
+    opacity: 1;
+    background-color: #ddd;
+    
   }
   

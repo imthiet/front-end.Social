@@ -6,9 +6,9 @@ import './Messages.css';
 function Messages() {
   const [usersWithMessages, setUsersWithMessages] = useState([]);
   const [error, setError] = useState(null);
-  const [showDropdown, setShowDropdown] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedUser, setSelectedUser] = useState(null); // State for selected user
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [deleteMessageId, setDeleteMessageId] = useState(null); // ID of message to delete
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -35,15 +35,33 @@ function Messages() {
 
     fetchMessages();
   }, []);
+
   const handleUserClick = (user) => {
     setSelectedUser(selectedUser === user ? null : user);
   };
-  const toggleDropdown = () => {
-    setShowDropdown((prev) => !prev);
-};
-  const handleDeleteMsg = () => {
-    console.log("Message Click");
-    // Thực hiện hành động khi người dùng click vào "Report"
+
+  const handleDeleteMsg = async (chatId) => {
+    if (window.confirm('Are you sure to delete this message?')) {
+      try {
+        const response = await fetch(`http://localhost:8080/api/chat/delete/${chatId}`, {
+          method: 'DELETE',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (response.ok) {
+          setUsersWithMessages((prev) =>
+            prev.filter((user) => user.chatId !== chatId)
+          );
+          // console.log("Dlete chat1");
+        } else {
+          console.error('Failed to delete message');
+        }
+      } catch (error) {
+        console.error('Error deleting message:', error);
+      }
+    }
   };
 
   return (
@@ -63,22 +81,15 @@ function Messages() {
                 <li
                   key={index}
                   className="message-item"
-                  onClick={() => setSelectedUser(user)} // Set selected user on click
+                  onClick={() => handleUserClick(user)} // Set selected user on click
                 >
                   <div className="post-container">
-                     {/* Dropdown */}
-                  <div className="dropdown-container">
-                    <button className="dropdown-toggle" onClick={toggleDropdown}>
-                      ⋮
-                    </button>
-                    <ul className={`dropdown-menu ${showDropdown ? "show" : ""}`}>
-                      <li onClick={handleDeleteMsg}>Delete Msg</li>
-                    </ul>
-                  </div>
                     <h4>{user.username}</h4>
-                    <p>{user.lastMessageContent || "No message"}</p>
+                    <p>{user.lastMessageContent || 'No message'}</p>
                     <p className="author">
-                      at {user.lastMessageTimestamp && new Date(user.lastMessageTimestamp).toLocaleString()}
+                      at{' '}
+                      {user.lastMessageTimestamp &&
+                        new Date(user.lastMessageTimestamp).toLocaleString()}
                     </p>
                     <div className="post-icons">
                       <img
@@ -87,24 +98,28 @@ function Messages() {
                         className="icon"
                       />
                       <span>View Chat</span>
+                      {/* Delete Icon */}
+                      <button
+                        className="delete-icon"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent triggering parent click
+                          handleDeleteMsg(user.chatId); // Pass message ID to delete
+                        }}
+                      >
+                        🗑️
+                      </button>
                     </div>
-                   
                   </div>
-
-                  
                 </li>
               ))
             )}
           </ul>
         )}
       </div>
-    
-  
 
-      {/* ChatBox will show when a user is selected */}
       {selectedUser && (
         <div className="chatbox-container">
-         <ChatBox user={selectedUser} onClose={() => setSelectedUser(null)} />
+          <ChatBox user={selectedUser} onClose={() => setSelectedUser(null)} />
         </div>
       )}
     </div>

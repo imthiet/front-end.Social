@@ -19,6 +19,7 @@ import Edit_profile from './component/Edit_profile/Edit_profile';
 
 
 
+
 function App() {
   
 
@@ -43,7 +44,7 @@ function App() {
             <Route path="/Manage_progress" element={<Manage_progress />} />
             <Route path="/Edit_user/:username" element={<Edit_user />} />
             <Route path="/Edit_profile" element={<Edit_profile />} />
-
+         
           </Routes>
       </Router>
     </div>
