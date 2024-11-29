@@ -60,10 +60,10 @@ function ChatBox({ user, onClose }) {
     if (newMessage.trim() && stompClient.current && stompClient.current.connected) {
       const message = {
         content: newMessage,
-        senderId: localStorage.getItem('userId'), // ID người gửi
-        senderUsername: own_name,          // Username người gửi
+        senderId: localStorage.getItem('userId'), // ID sender
+        senderUsername: own_name,          // Username local
         receiverId: user.userId,                // ID người nhận
-        chatId: user.chatId,                    // ID cuộc trò chuyện
+        chatId: user.chatId,                    // ID chat
       };
   
       // Gửi tin nhắn qua WebSocket

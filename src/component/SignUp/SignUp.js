@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './SignUp.css';
+import backgroundImage from '../../assets/images/backgr.png';
 import {
   Typography,
   Button,

@@ -17,20 +17,47 @@ function Navbar() {
             setUsername(storedUsername);
         }
 
-        const checkForNotifications = () => {
-            // Uncomment when API is available
-            // fetch('/api/notifications/unread')
-            //     .then((response) => response.json())
-            //     .then((notifications) => {
-            //         setHasNewNotification(notifications.length > 0);
-            //     })
-            //     .catch((error) => console.error('Error fetching notifications:', error));
+        const fetchUnreadNotifications = async () => {
+            try {
+                const response = await fetch('http://localhost:8080/api/notifications/unread', {
+                    credentials: 'include',
+                    
+                });
+                if (response.ok) {
+                    const notifications = await response.json();
+                    setHasNewNotification(notifications.length > 0);
+                } else {
+                    console.error('Failed to fetch unread notifications:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching unread notifications:', error);
+            }
         };
-
-        const intervalId = setInterval(checkForNotifications, 3000);
-
-        return () => clearInterval(intervalId); // Cleanup on unmount
+    
+        // Kiểm tra thông báo mỗi 5 giây
+        const intervalId = setInterval(fetchUnreadNotifications, 2000);
+    
+        // Dọn dẹp khi component bị unmount
+        return () => clearInterval(intervalId);
     }, []);
+
+    const handleMarkAllRead = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/api/notifications/mark-all-read', {
+                method: 'POST',
+                credentials: 'include',
+            });
+            if (response.ok) {
+                setHasNewNotification(false); // update icoon
+                navigate('/noti'); // navigate
+            } else {
+                console.error('Failed to mark notifications as read:', response.status);
+            }
+        } catch (error) {
+            console.error('Error marking notifications as read:', error);
+        }
+    };
+    
 
     const toggleDropdown = (e) => {
         e.stopPropagation();
@@ -43,7 +70,9 @@ function Navbar() {
             return;
         }
 
-        fetch('/users/logout', { method: 'GET' }) // API call to logout
+        fetch('http://localhost:8080/users/logout', 
+            {
+                 method: 'GET',  credentials: 'include', }) // API call to logout
             .then((response) => {
                 if (response.ok) {
                     localStorage.removeItem('username'); // Clear username
@@ -77,12 +106,13 @@ function Navbar() {
                 <Link to="/messages" className="icon">
                     <img src={require('../../assets/images/message.png')} alt="Messages" />
                 </Link>
-                <Link to="/noti" className="icon">
+                <Link to="/noti" className="icon" onClick={handleMarkAllRead}>
                     <img
                         src={hasNewNotification ? require('../../assets/images/noti_new.png') : require('../../assets/images/noti.png')}
                         alt="Notifications"
                     />
                 </Link>
+
                 <Link to="/msg" className="icon">
                     <img src={require('../../assets/images/setting.png')} alt="Settings" />
                 </Link>

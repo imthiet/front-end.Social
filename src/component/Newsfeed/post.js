@@ -8,7 +8,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
     const [newComment, setNewComment] = useState(""); // State for new comment
     const [error, setError] = useState(null);
     const [commentsList, setCommentsList] = useState(comments ? comments.content : []); // State for comments list
-  
+    
     const [showDropdown, setShowDropdown] = useState(false);
     const [showReportForm, setShowReportForm] = useState(false); // Hiển thị form báo cáo
     const [reportReason, setReportReason] = useState(""); // Lý do báo cáo

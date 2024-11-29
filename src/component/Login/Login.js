@@ -24,7 +24,7 @@ const Login = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
-                credentials: 'include'
+                credentials: 'include', // Bật gửi cookie
             });
     
             if (!response.ok) {
@@ -37,7 +37,7 @@ const Login = () => {
             localStorage.setItem('isAdmin',data.isAdmin);
             localStorage.setItem('userId', data.userId);  // Store userId in localStorage
             console.log(data.isAdmin);
-            navigate('/Newsfeed');
+            window.location.href = '/Newsfeed';
 
         } catch (err) {
             setError(err.message);
@@ -50,8 +50,10 @@ const Login = () => {
 
     return (
         <div 
-            className="login-background d-flex align-items-center justify-content-center" 
+            className="login-background" 
             style={{ backgroundImage: `url(${backgroundImage})` }}
+            id='root'
+
         >
            
             <form onSubmit={handleLogin} className="login-form">

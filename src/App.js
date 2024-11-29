@@ -16,7 +16,7 @@ import Manage_user from './component/Admin/Manage_user/Manage_user';
 import Manage_progress from './component/Admin/Manage_progress/Manage_progress';
 import Edit_user from './component/Admin/Manage_user/Edit_user';
 import Edit_profile from './component/Edit_profile/Edit_profile';
-
+import Manage_Progress from './component/Admin/Manage_progress/Manage_progress';
 
 
 
@@ -44,6 +44,7 @@ function App() {
             <Route path="/Manage_progress" element={<Manage_progress />} />
             <Route path="/Edit_user/:username" element={<Edit_user />} />
             <Route path="/Edit_profile" element={<Edit_profile />} />
+            <Route path='/progress' element = {<Manage_Progress/>} />
          
           </Routes>
       </Router>

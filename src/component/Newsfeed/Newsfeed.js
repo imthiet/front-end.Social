@@ -8,33 +8,67 @@ import '../notice/notice.css';  // Đảm bảo rằng đường dẫn đúng
 import { showAlert } from '../notice/notice.js';  // Đảm bảo rằng đường dẫn đúng
 
 function Newsfeed() {
+  
+    
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(0);
     const [posts, setPosts] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [content, setContent] = useState('');
     const [file, setFile] = useState(null);
     const [showCreatePost, setShowCreatePost] = useState(false); // Hiển thị form tạo post
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const response = await fetch('http://localhost:8080/post/all', {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    method: 'GET',
-                    credentials: 'include',
-                });
-                const data = await response.json();
-                setPosts(data);
-            } catch (error) {
-                console.error('Error fetching posts:', error);
-            } finally {
-                setIsLoading(false);
+    const fetchPosts = async () => {
+        setIsLoading(true); // Use the setter function
+        try {
+            const response = await fetch('http://localhost:8080/post/postByFriend', {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: 'GET',
+                credentials: 'include',
+            });
+            const data = await response.json();
+            if(data.length > 0) {
+                setPosts((prev) => [...prev, ...data]); // Add new posts to the list
+            } else {
+                setHasMore(false); // No more posts to load
             }
-        };
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        } finally {
+            setIsLoading(false); // Set loading to false when done
+        }
+    };
+    
+         // Gọi API để lấy thông báo khi page thay đổi
+    useEffect(() => {
+        if (hasMore) {
+            fetchPosts(page);
+        }
+    }, [page]);
 
-        fetchPosts();
-    }, []);
+    // Xử lý sự kiện cuộn xuống
+    const handleScroll = () => {
+        if (
+            window.innerHeight + document.documentElement.scrollTop + 1 >=
+            document.documentElement.scrollHeight
+        ) {
+            if (!isLoading && hasMore) {
+                setPage((prevPage) => prevPage + 1); // Tăng số trang để tải thêm
+            }
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [isLoading, hasMore]);
+
+
+       
 
     const handleCreatePost = async (content, file) => {
         try {

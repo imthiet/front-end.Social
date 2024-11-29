@@ -4,11 +4,14 @@
     background-position: center;
     width: 100vw;
     height: 100vh;
+    margin: 0; /* Đảm bảo không có khoảng trống */
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-  
 }
+
+
 
 /* Form container styling */
 .login-form {
@@ -39,3 +42,4 @@
     cursor: pointer;
     font-size: 1.2rem;
 }
+
