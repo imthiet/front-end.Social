@@ -8,20 +8,16 @@ import '../notice/notice.css';  // Đảm bảo rằng đường dẫn đúng
 import { showAlert } from '../notice/notice.js';  // Đảm bảo rằng đường dẫn đúng
 
 function Newsfeed() {
-  
-    
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(0);
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [content, setContent] = useState('');
-    const [file, setFile] = useState(null);
     const [showCreatePost, setShowCreatePost] = useState(false); // Hiển thị form tạo post
 
-    const fetchPosts = async () => {
+    const fetchPosts = async (page) => {
         setIsLoading(true); // Use the setter function
         try {
-            const response = await fetch('http://localhost:8080/post/postByFriend', {
+            const response = await fetch(`http://localhost:8080/post/postByFriend?page=${page}&size=4`, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -29,8 +25,17 @@ function Newsfeed() {
                 credentials: 'include',
             });
             const data = await response.json();
-            if(data.length > 0) {
-                setPosts((prev) => [...prev, ...data]); // Add new posts to the list
+            if (data.length > 0) {
+                setPosts((prev) => {
+                    const combinedPosts = [...prev, ...data];
+                    const uniquePosts = combinedPosts.reduce((acc, post) => {
+                        if (!acc.find(p => p.id === post.id)) {
+                            acc.push(post);
+                        }
+                        return acc;
+                    }, []);
+                    return uniquePosts;
+                }); // Add new posts to the list, filtering out duplicates
             } else {
                 setHasMore(false); // No more posts to load
             }
@@ -41,7 +46,8 @@ function Newsfeed() {
         }
     };
     
-         // Gọi API để lấy thông báo khi page thay đổi
+
+    // Gọi API để lấy thông báo khi page thay đổi
     useEffect(() => {
         if (hasMore) {
             fetchPosts(page);
@@ -67,9 +73,6 @@ function Newsfeed() {
         };
     }, [isLoading, hasMore]);
 
-
-       
-
     const handleCreatePost = async (content, file) => {
         try {
             const formData = new FormData();
@@ -87,7 +90,7 @@ function Newsfeed() {
                 showAlert(data.message); 
                 setPosts((prevPosts) => [
                     {
-                        id: Math.random(), 
+                       
                         content,
                         image: URL.createObjectURL(file),
                         createdBy: 'Bạn', 
@@ -119,7 +122,7 @@ function Newsfeed() {
             </div>
 
             <div className="createPost-container">
-                <button className = 'open-btn' onClick={() => setShowCreatePost((prev) => !prev)}>
+                <button className='open-btn' onClick={() => setShowCreatePost((prev) => !prev)}>
                     {showCreatePost ? 'Đóng' : 'Thêm bài viết mới'}
                 </button>
                 {showCreatePost && (
@@ -127,23 +130,21 @@ function Newsfeed() {
                 )}
             </div>
             <div className="newsfeed-container">
-                {isLoading ? (
-                    <div className="loader"></div>
-                ) : (
-                    posts.map(post => (
-                        <Post
-                            key={post.id}
-                            id={post.id}
-                            content={post.content}
-                            image={post.image}
-                            createdBy={post.createdBy}
-                            createdAt={post.createdAt}
-                            likesCount={post.likesCount}
-                            comments={post.comments}
-                            liked={post.liked}
-                        />
-                    ))
-                )}
+                {posts.map(post => (
+                    <Post
+                        key={post.id}
+                        id={post.id}
+                        content={post.content}
+                        image={post.image}
+                        createdBy={post.createdBy}
+                        createdAt={post.createdAt}
+                        likesCount={post.likesCount}
+                        comments={post.comments}
+                        liked={post.liked}
+                    />
+                ))}
+                {isLoading && <div className="loader"></div>} {/* Loading spinner */}
+                {!hasMore && <div className="no-more-posts">No more posts</div>}
             </div>
         </div>
     );

@@ -18,27 +18,28 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         setError(null);
-    
+
         try {
             const response = await fetch('http://localhost:8080/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
-                credentials: 'include', // Bật gửi cookie
+               
             });
-    
+
             if (!response.ok) {
-                throw new Error('Invalid username or password');
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Invalid username or password');
             }
-    
+
             const data = await response.json();
+            console.log(data);
+            alert(data);
             localStorage.setItem('auth', 'true');
             localStorage.setItem('username', username);
-            localStorage.setItem('isAdmin',data.isAdmin);
-            localStorage.setItem('userId', data.userId);  // Store userId in localStorage
-            console.log(data.isAdmin);
-            window.location.href = '/Newsfeed';
-
+            localStorage.setItem('isAdmin', data.isAdmin);
+            localStorage.setItem('userId', data.userId);
+            navigate('/Newsfeed');
         } catch (err) {
             setError(err.message);
         } finally {

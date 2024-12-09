@@ -8,7 +8,6 @@ function Messages() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [deleteMessageId, setDeleteMessageId] = useState(null); // ID of message to delete
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -36,38 +35,23 @@ function Messages() {
     fetchMessages();
   }, []);
 
+  useEffect(() => {
+    const script = document.createElement('script');
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   const handleUserClick = (user) => {
     setSelectedUser(selectedUser === user ? null : user);
-  };
-
-  const handleDeleteMsg = async (chatId) => {
-    if (window.confirm('Are you sure to delete this message?')) {
-      try {
-        const response = await fetch(`http://localhost:8080/api/chat/delete/${chatId}`, {
-          method: 'DELETE',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        if (response.ok) {
-          setUsersWithMessages((prev) =>
-            prev.filter((user) => user.chatId !== chatId)
-          );
-          // console.log("Dlete chat1");
-        } else {
-          console.error('Failed to delete message');
-        }
-      } catch (error) {
-        console.error('Error deleting message:', error);
-      }
-    }
   };
 
   return (
     <div className="maincontroller">
       <Navbar />
-
       <div className="messages-container">
         {error && <p>{error}</p>}
         {isLoading ? (
@@ -91,24 +75,6 @@ function Messages() {
                       {user.lastMessageTimestamp &&
                         new Date(user.lastMessageTimestamp).toLocaleString()}
                     </p>
-                    <div className="post-icons">
-                      <img
-                        src={require('../../assets/images/message.png')}
-                        alt="Message Icon"
-                        className="icon"
-                      />
-                      <span>View Chat</span>
-                      {/* Delete Icon */}
-                      <button
-                        className="delete-icon"
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent triggering parent click
-                          handleDeleteMsg(user.chatId); // Pass message ID to delete
-                        }}
-                      >
-                        🗑️
-                      </button>
-                    </div>
                   </div>
                 </li>
               ))
@@ -122,6 +88,14 @@ function Messages() {
           <ChatBox user={selectedUser} onClose={() => setSelectedUser(null)} />
         </div>
       )}
+
+
+<df-messenger
+  intent="WELCOME"
+  chat-title="social_chatbot"
+  agent-id="f7ea61e7-bbdc-4569-92f4-9b8d1a902267"
+  language-code="en"
+></df-messenger>
     </div>
   );
 }
