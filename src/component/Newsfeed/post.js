@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './post.css';
+import timeAgo from '../../Ago';
 
 function Post({ id, content, image, createdBy, createdAt, likesCount, comments, liked }) {
     const [isLiked, setIsLiked] = useState(liked);
@@ -138,7 +139,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
 
     return (
         <div className="post-container">
-            <h4>{content}</h4>
+            <h5>{content}</h5>
             <div className="dropdown-container">
                 <button className="dropdown-toggle" onClick={toggleDropdown}>
                     ⋮
@@ -148,7 +149,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
                 </ul>
             </div>
             {image && <img src={`data:image/png;base64,${image}`} alt="Post" className="post-image" />}
-            <p className="author">By: {createdBy} on {new Date(createdAt).toLocaleString()}</p>
+            <p className="author">{createdBy} - {timeAgo(createdAt)}</p>
     
             <div className="post-icons">
                 <div className="like-section" onClick={toggleLike}>

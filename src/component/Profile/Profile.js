@@ -132,7 +132,7 @@ function Profile() {
                             accept="image/*" 
                             onChange={handleFileChange} 
                         />
-                        <button onClick={handleAvatarUpload}>Submit</button>
+                        <button className = "add-friend" onClick={handleAvatarUpload}>Submit</button>
                         {uploadMessage && <p>{uploadMessage}</p>}
                     </div>
 

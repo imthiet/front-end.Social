@@ -110,8 +110,7 @@ function Newsfeed() {
         }
     };
     
-   // Các phần còn lại không thay đổi
-
+  
     return (
         <div className='main-container'>
             <Navbar />
@@ -123,7 +122,7 @@ function Newsfeed() {
 
             <div className="createPost-container">
                 <button className='open-btn' onClick={() => setShowCreatePost((prev) => !prev)}>
-                    {showCreatePost ? 'Đóng' : 'Thêm bài viết mới'}
+                    {showCreatePost ? 'Close' : 'Share your post'}
                 </button>
                 {showCreatePost && (
                     <CreatePost onCreatePost={handleCreatePost} />

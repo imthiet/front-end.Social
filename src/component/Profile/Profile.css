@@ -52,16 +52,19 @@
 .profile-avatar-upload label {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 5px;
+    background-color: rgb(210, 210, 234);
+    color: #1a0404;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
+    font-weight: bold;
+    border: 2px solid;
     transition: background-color 0.3s ease;
 }
 
 .profile-avatar-upload label:hover {
     background-color: #0056b3;
+    color: #ffffff;
 }
 
 /* Styling the submit button */
@@ -69,17 +72,19 @@
     margin-top: 10px;
     padding: 10px 20px;
     padding-left: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    background-color:  rgb(210, 210, 234);
+    color: rgb(25, 3, 3);
+    border: 2px solid;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
+    font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
 .profile-avatar-upload button:hover {
-    background-color: #218838;
+    background-color:  #0056b3;
+    color: white;
 }
 
 /* Styling the message */
@@ -99,20 +104,34 @@
 .btn-friend {
     background-color: green;
     color: white;
+    border: 2px solid;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
 .btn-pending {
     background-color: orange;
     color: white;
+    border: 2px solid;
+  border-radius: 8px;
+  font-weight: bold;
+  height: 45px;
 }
 .add-friend {
-    background-color: blue;
+    background-color: rgb(5, 5, 53);
     color: white;
+    border: 2px solid;
+  border-radius: 8px;
+  font-weight: bold;
+  height: 45px;
 }
 .btn-accept
 {
     background-color: green;
     color: white;
+    border: 2px solid;
+  border-radius: 8px;
+  height: 45px;
 }
 
 .prf_v-btn
@@ -141,4 +160,12 @@
     padding: 5px 10px;
     cursor: pointer;
   }
-  
+  .dropdown-itemm
+  {
+    background-color: rgb(137, 145, 16);
+    color: white;
+    border: 2px solid;
+  border-radius: 8px;
+  font-weight: bold;
+  height: 45px;
+  }

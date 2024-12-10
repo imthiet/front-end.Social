@@ -1,5 +1,6 @@
 /* Post.css */
 .post-container {
+   
     border: 1px solid #ddd;
     padding: 15px;
     margin: 10px 0;
@@ -25,29 +26,26 @@
     font-size: 1rem;
 }
 
-.post-image {
-    width: 100%;
-    height: auto;
-    margin-top: 10px;
-    border-radius: 8px;
-}
+
 
 .post-date {
-    color: #888;
+    color: #150101;
     font-size: 0.9rem;
 }
 .post-image
 {
-    max-width: 100px;
-    max-height: 300px;
+    max-width: 500px;
+    max-height: 700px;
+    min-width: 200px;
+   background-color: #010c1a;
     object-fit: contain;
-    border-radius: 5px; /* Optional: Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Shadow for a nice effect */
+    border-radius: 7px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 .author
 {
-    font-weight: bold;
-    color: #333;
+    font-weight: lighter;
+    color: #150202;
 }
 .post-icons {
     display: flex;
@@ -108,8 +106,8 @@
 
 .submit-comment {
     padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
+    background-color: #ecf1ec;
+    color: rgb(15, 1, 1);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -117,7 +115,8 @@
 }
 
 .submit-comment:hover {
-    background-color: #45a049;
+    background-color: #010c02;
+    color: #fff;
 }
 
 .error-message {

@@ -33,8 +33,7 @@ const Login = () => {
             }
 
             const data = await response.json();
-            console.log(data);
-            alert(data);
+           
             localStorage.setItem('auth', 'true');
             localStorage.setItem('username', username);
             localStorage.setItem('isAdmin', data.isAdmin);

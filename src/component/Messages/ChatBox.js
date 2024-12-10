@@ -3,6 +3,7 @@ import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import './ChatBox.css';
 import axios from 'axios';
+import timeAgo_2 from '../../Ago';
 
 function ChatBox({ user, onClose }) {
     const [messages, setMessages] = useState([]);
@@ -123,13 +124,14 @@ function ChatBox({ user, onClose }) {
 
     return (
         <div className="chatbox">
-            <h4>{user.username}</h4>
+            <h4 className='name'>{user.username}</h4>
             <button className="close-button" onClick={onClose}>
                 ×
             </button>
             <button className="load-more-button" onClick={handleLoadMore} disabled={loading}>
-                ↑ Load More
+                ↑
             </button>
+            
 
             {loading && <div className="loader"></div>}
 
@@ -139,8 +141,11 @@ function ChatBox({ user, onClose }) {
                         key={index}
                         className={`message ${message.senderUsername !== user.username ? 'sent' : 'receiver'}`}
                     >
-                        <strong>{message.senderUsername}</strong> {message.content}
-                        <span className="timestamp">{new Date(message.timestamp).toLocaleString()}</span>
+                        <strong>{message.senderUsername}</strong>
+                        <br />
+                        <p className='real_msg'>{message.content}</p> 
+                        <span className="timestamp">{timeAgo_2(message.timestamp)}</span>
+
                     </div>
                 ))}
             </div>

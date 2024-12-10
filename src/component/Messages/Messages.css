@@ -10,12 +10,16 @@
   .message-list {
     list-style: none;
     padding: 0;
+    
+    background-color: #c5b7b7;
+    border-radius: 8px;
+
   }
   
   .message-item {
-    margin-bottom: 2px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
-    padding: 1px;
+    padding: 5px;
     border-radius: 5px;
     background-color: #f9f9f9;
     
@@ -24,7 +28,7 @@
   .post-container h4 {
     font-size: 18px;
     margin: 0;
-    color: #333;
+    color: #1a0202;
   }
   
   .post-container p {
@@ -39,13 +43,13 @@
   }
   
   .icon {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     margin-right: 8px;
   }
   
   .author {
-    font-size: 14px;
+    font-size: 13px;
     color: #888;
   }
   
@@ -62,17 +66,17 @@
   .chatbox-container {
     width: 30%;
     padding-top: 67px;
-    position: absolute;  /* Chuyển sang absolute để căn chỉnh với .messages-container */
-    top: 0; /* Đảm bảo container nằm ở trên cùng */
-    right: 0; /* Đặt container vào góc phải của màn hình */
+    position: absolute;  
+    top: 0; 
+    right: 0; 
     display: flex;
-    flex-direction: column; /* Đảm bảo các phần tử trong container xếp theo chiều dọc */
+    flex-direction: column; 
   }
   
   .chatbox {
-    position: relative;  /* Thay đổi từ absolute sang relative */
-    left: -480px; /* Điều chỉnh khoảng cách để phần comment xuất hiện bên cạnh post */
-    width: 100%;  /* Đảm bảo chatbox chiếm hết chiều rộng của .chatbox-container */
+    position: relative;  
+    left: -480px;
+    width: 100%;  
     background-color: #f0f0f0;
     border: 1px solid #ddd;
     
@@ -95,11 +99,22 @@
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 15px;
     margin-left: 10px;
     color: red;
   }
   .delete-icon:hover
   {
     background-color: #ccc;
+  }
+
+  .lastMsg
+  {
+    background-color:  #dbd6d6;
+    color: #00050b;
+    font-weight: 600;
+    border-radius: 5px;
+    border-radius: 2px solid;
+    max-width: max-content;
+    
   }
