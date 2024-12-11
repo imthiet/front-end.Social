@@ -16,8 +16,8 @@
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 2px solid #140303;
+    border-radius: 8px;
     font-size: 16px;
   }
   
@@ -93,7 +93,9 @@
     background-color: #f9f9f9;
     border-radius: 8px;
     
-    padding-top: 60px;
+    padding-top: 70px;
+    border: 2px solid;
+    min-height: 500px;
   }
   
   .list-group-item {

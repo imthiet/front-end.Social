@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import './Noti.css';
 import { useNavigate } from "react-router-dom";
+import newimg from '../../assets/images/new.png';
 
 function Noti() {
     const [notifications, setNotifications] = useState([]);
@@ -113,9 +114,7 @@ function Noti() {
                                 }
                             }}
                         >
-                            <p style={{ margin: "5px 0", fontWeight: "bold" }}>
-                                {notification.contentnoti}
-                            </p>
+                            <div style={{ display: 'flex', alignItems: 'center' }}> <p style={{ margin: "5px 0", fontWeight: "bold" }}> {notification.contentnoti} </p> {notification.status === "unread" && ( <img src={newimg} alt="Unread newimg" style={{ marginLeft: '10px', width: '20px', height: '20px' }} /> )} </div>
                             <p style={{ margin: "5px 0", color: "#555" }}>
                                 <strong>From:</strong> {notification.sender_username}
                             </p>

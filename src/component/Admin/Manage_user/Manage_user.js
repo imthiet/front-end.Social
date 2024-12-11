@@ -9,7 +9,7 @@ const Manage_user = () => {
   const [results, setResults] = useState([]); // Kết quả tìm kiếm
   const [loading, setLoading] = useState(false); // Trạng thái loading
   const [page, setPage] = useState(0); // Trang hiện tại
-  const [size, setSize] = useState(10); // Số lượng kết quả mỗi trang
+  const [size, setSize] = useState(7); // Số lượng kết quả mỗi trang
   const [error, setError] = useState(null); // Thêm lỗi nếu có
 
   const navigate = useNavigate();
@@ -69,6 +69,7 @@ const Manage_user = () => {
         <div>
           <h2>Search User</h2>
           <input
+          className="search-input"
             type="text"
             placeholder="Enter keyword..."
             value={keyword}

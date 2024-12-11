@@ -139,7 +139,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
 
     return (
         <div className="post-container">
-            <h5>{content}</h5>
+            <p className='post-content'>{content}</p>
             <div className="dropdown-container">
                 <button className="dropdown-toggle" onClick={toggleDropdown}>
                     ⋮

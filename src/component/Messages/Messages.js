@@ -84,7 +84,7 @@ function Messages() {
                                     className="message-item"
                                     onClick={() => handleUserClick(user)} // Set selected user on click
                                 >
-                                    <div className="post-container">
+                                    <div className="msg-container">
                                         <h4>{user.username}</h4>
                                         <p className='lastMsg'>{user.lastMessageContent || 'No message'}</p>
                                         <p className="author"> {' '} {user.lastMessageTimestamp && timeAgo(user.lastMessageTimestamp)} </p>

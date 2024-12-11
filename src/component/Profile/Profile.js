@@ -8,44 +8,39 @@ function Profile() {
     const [friends, setFriends] = useState([]);
     const [posts, setPosts] = useState([]); 
     const [isLoading, setIsLoading] = useState(true);
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize] = useState(3); // Số lượng bạn bè trên mỗi trang
+    
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploadMessage, setUploadMessage] = useState("");
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                // Fetch user profile
-                const userResponse = await fetch('http://localhost:8080/api/profile/main', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include',
-                });
+                const [userResponse, friendsResponse, postsResponse] = await Promise.all([
+                    fetch('http://localhost:8080/api/profile/main', {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                    }),
+                    fetch('http://localhost:8080/api/profile/fr', {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                    }),
+                    fetch('http://localhost:8080/api/profile/post', {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                    }),
+                ]);
+    
                 const userData = await userResponse.json();
-                setUserProfile(userData);
-
-                // Fetch friends list
-                const friendsResponse = await fetch('http://localhost:8080/api/profile/fr', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include',
-                });
                 const friendsData = await friendsResponse.json();
-                setFriends(friendsData);
-
-                // Fetch posts
-                const postsResponse = await fetch('http://localhost:8080/api/profile/post', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include',
-                });
                 const postsData = await postsResponse.json();
+    
+                setUserProfile(userData);
+                setFriends(friendsData);
                 setPosts(Array.isArray(postsData) ? postsData : []);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -53,9 +48,26 @@ function Profile() {
                 setIsLoading(false);
             }
         };
-
+  
+        
         fetchUserData();
     }, []);
+    const previousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+    
+    const nextPage = () => {
+        if (currentPage < Math.ceil(friends.length / pageSize)) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+    
+    const paginatedFriends = friends.slice(
+        (currentPage - 1) * pageSize,
+        currentPage * pageSize
+    );
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
@@ -140,19 +152,37 @@ function Profile() {
 
 
                 <div className="friends-list">
-                    <h3>Your Friends</h3>
-                    {friends.length === 0 ? (
-                        <p>No friends yet</p>
-                    ) : (
-                        <ul>
-                            {friends.map((friend) => (
-                                <li key={friend.id}>
-                                    <span>{friend.username}</span> - <span>{friend.email}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
+    <h3>Your Friends</h3>
+    {friends.length === 0 ? (
+        <p>No friends yet</p>
+    ) : (
+        <>
+            <ul>
+                {paginatedFriends.map((friend) => (
+                    <li key={friend.id}>
+                        <span>{friend.username}</span> - <span>{friend.email}</span>
+                    </li>
+                ))}
+            </ul>
+            <div className="pagination">
+                <button
+                    onClick={previousPage}
+                    disabled={currentPage === 1}
+                >
+                    &lt; Previous
+                </button>
+                <span> Page {currentPage} of {Math.ceil(friends.length / pageSize)} </span>
+                <button
+                    onClick={nextPage}
+                    disabled={currentPage === Math.ceil(friends.length / pageSize)}
+                >
+                    Next &gt;
+                </button>
+            </div>
+        </>
+    )}
+</div>
+
             </div>
 
             <div className="posts-list">
@@ -166,7 +196,7 @@ function Profile() {
                             id={post.id}
                             content={post.content}
                             image={post.image}
-                            createdBy={post.createdBy}
+                           
                             createdAt={post.createdAt}
                             likesCount={post.likesCount}
                             comments={post.comments}

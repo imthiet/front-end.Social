@@ -156,12 +156,18 @@ function ChatBox({ user, onClose }) {
                     type="text"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                            handleSendMessage();
+                        }
+                    }}
                     placeholder="Send a message..."
                 />
                 <button className="sentbtn" onClick={handleSendMessage}>
                     Send
                 </button>
             </div>
+
         
         </div>
     );

@@ -14,6 +14,7 @@ function Profile_view() {
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    
     const [showDropdown, setShowDropdown] = useState(false);
 
     const [friendStatus, setFriendStatus] = useState({
@@ -95,8 +96,12 @@ function Profile_view() {
           alert("An error occurred while sending the friend request.");
         }
       };
-      
-      
+        
+      const handleUserClick = (username) => {
+        console.log(username);
+        navigate(`/profile_view/${username}`); // Điều hướng đến trang profile và truyền username
+    };
+    
       const handleAcceptFriend = async (friendUsername) => {
         try {
           const response = await fetch(
@@ -170,8 +175,17 @@ function Profile_view() {
             });
             setUserProfile(userData);
     
+           // Fetch friends list
+           const friendsResponse = await fetch(`http://localhost:8080/api/profile/${username}/friends`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+              });
+              const friendsData = await friendsResponse.json();
+              setFriends(friendsData);
           
-    
             // Fetch posts
             const postsResponse = await fetch(`http://localhost:8080/api/profile/${username}/posts`, {
               method: "GET",
@@ -189,7 +203,7 @@ function Profile_view() {
           }
         };
         fetchUserData();
-    }, []);
+    }, [username]);
 
     return (
       <div className="profile_main-container">
@@ -259,23 +273,28 @@ function Profile_view() {
           </div>
     
           <div className="friends-list">
-            <h3>Friends</h3>
-            {friends.length === 0 ? (
-              <p>Unable to show friend!</p>
-            ) : (
-              <ul>
-                {friends.map((friend) => (
-                  <li key={friend.id}>
-                    <span>{friend.username}</span> - <span>{friend.email}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
+              <h3>Friends</h3>
+              {friends.length === 0 ? (
+                  <p>Unable to show friend!</p>
+              ) : (
+                  <ul>
+                      {friends.map((friend) => (
+                          <li 
+                              key={friend.id} 
+                              onClick={() => handleUserClick(friend.username)} 
+                              style={{ cursor: 'pointer' }} 
+                          >
+                              <span>{friend.username}</span> - <span>{friend.email}</span>
+                          </li>
+                      ))}
+                  </ul>
+              )}
           </div>
+
         </div>
     
         <div className="posts-list">
-          <h3>Your Posts</h3>
+          <h3> Posts</h3>
           {posts.length === 0 ? (
             <p>No posts yet</p>
           ) : (

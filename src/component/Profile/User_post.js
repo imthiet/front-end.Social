@@ -159,7 +159,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
 
     return (
         <div className="post-container">
-            <h4>{content}</h4>
+            <p className="post-content">{content}</p>
             <div className="dropdown-container">
                 <button className="dropdown-toggle" onClick={toggleDropdown}>
                     ⋮
@@ -172,7 +172,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
 
             {image && <img src={`data:image/png;base64,${image}`} alt="Post" className="post-image" />}
             <p className="author">
-                By: {createdBy} on {new Date(createdAt).toLocaleString()}
+                on {new Date(createdAt).toLocaleString()}
             </p>
 
             <div className="post-icons">

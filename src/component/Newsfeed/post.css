@@ -1,11 +1,11 @@
 /* Post.css */
 .post-container {
-   
-    border: 1px solid #ddd;
-    padding: 15px;
+    border: 1px solid #1f0404;
+    padding: 25px;
     margin: 10px 0;
     border-radius: 8px;
-    background-color: #fff;
+    justify-items: center;
+    background-color: #f7f7f7;
     position: relative; /* Đặt post-container là vị trí gốc */
     box-shadow: 12px 15px 5px rgba(18, 3, 3, 0.1); /* X Offset, Y Offset, Blur, Màu */
 }
@@ -15,38 +15,36 @@
     justify-content: space-between;
 }
 
-.post-title {
-    margin-top: 0;
-    font-size: 1.2rem;
-    color: #333;
-}
-
 .post-content {
     margin-top: 10px;
-    font-size: 1rem;
+    font-size: 1rem; 
+    font-family: 'Times New Roman', sans-serif; 
+    color: #333333; 
+    line-height: 1.5; 
+  font-size: larger;
+  font-weight: 500;
+    text-align: justify; 
 }
 
-
-
+.post-image {
+    max-width: 400px;
+    max-height: 600px;
+    min-width: 200px;
+    background-color: #cbdaed;
+    object-fit: contain;
+    border-radius: 7px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
 .post-date {
     color: #150101;
     font-size: 0.9rem;
 }
-.post-image
-{
-    max-width: 500px;
-    max-height: 700px;
-    min-width: 200px;
-   background-color: #010c1a;
-    object-fit: contain;
-    border-radius: 7px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-}
-.author
-{
+
+.author {
     font-weight: lighter;
     color: #150202;
 }
+
 .post-icons {
     display: flex;
     align-items: center; /* Đảm bảo các icon và số lượng like cùng hàng */
@@ -59,10 +57,11 @@
 }
 
 .icon {
-    width: 20px; /* Đặt kích thước phù hợp cho các icon */
-    height: 20px;
+    width: 30px; /* Đặt kích thước phù hợp cho các icon */
+    height: 30px;
     cursor: pointer;
 }
+
 .comments-section {
     position: absolute;
     right: -380px; /* Điều chỉnh khoảng cách để phần comment xuất hiện bên cạnh post */
@@ -106,12 +105,11 @@
 
 .submit-comment {
     padding: 5px 10px;
-    background-color: #ecf1ec;
-    color: rgb(15, 1, 1);
-    border: none;
+    background-color: #ffffff;
+    color: rgb(75, 74, 74);
+    border: 1px solid;
     border-radius: 5px;
     cursor: pointer;
-    
 }
 
 .submit-comment:hover {
@@ -123,11 +121,13 @@
     color: red;
     margin-top: 5px;
 }
+
 .report-form {
     margin-top: 16px;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    min-width: 300px;
 }
 
 .report-textarea {
@@ -140,14 +140,14 @@
 }
 
 .submit-report {
-    width: 20%; /* Điều chỉnh chiều rộng của button */
+    width: 35%; /* Điều chỉnh chiều rộng của button */
     padding: 5px;
     background-color: #ffffff;
     color: #0e0e0e;
     border: 2px solid;
     border-radius: 8px;
     cursor: pointer;
-    margin-left: 40%;
+    margin-left: 30%;
     font-weight: bold;
   
     box-shadow: -5px -5px 5px rgba(18, 3, 3, 0.1); /* X Offset, Y Offset, Blur, Màu */
@@ -156,9 +156,4 @@
 .submit-report:hover {
     background-color: #00285A;
     color: #FFFFFF;
-}
-
-.error-message {
-    color: red;
-    font-size: 14px;
 }

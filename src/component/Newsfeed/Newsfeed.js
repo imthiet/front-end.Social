@@ -47,14 +47,14 @@ function Newsfeed() {
     };
     
 
-    // Gọi API để lấy thông báo khi page thay đổi
+    // Api call when page change
     useEffect(() => {
         if (hasMore) {
             fetchPosts(page);
         }
     }, [page]);
 
-    // Xử lý sự kiện cuộn xuống
+    // scrolldown event
     const handleScroll = () => {
         if (
             window.innerHeight + document.documentElement.scrollTop + 1 >=
@@ -93,7 +93,7 @@ function Newsfeed() {
                        
                         content,
                         image: URL.createObjectURL(file),
-                        createdBy: 'Bạn', 
+                        createdBy: 'You', 
                         createdAt: new Date().toISOString(),
                         likesCount: 0,
                         comments: [],
@@ -170,7 +170,7 @@ function CreatePost({ onCreatePost }) {
     return (
         <form className="createPost-box" onSubmit={handleSubmit}>
             <textarea
-                placeholder="Bạn đang nghĩ gì?"
+                placeholder="What's in your mind?"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 rows="4"

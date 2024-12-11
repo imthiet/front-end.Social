@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Edit_profile.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-
+import Navbar from '../Navbar/Navbar';
 const Edit_profile = () => {
   const [userData, setUserData] = useState({
     username: '',
@@ -156,6 +156,8 @@ const handleChangePassword = async (e) => {
   };
 
   return (
+    <div>
+      <Navbar/>
     <div className="edit-profile-container">
       <h2>Edit Profile</h2>
       {successMessage && <p className="success">{successMessage}</p>}
@@ -263,6 +265,7 @@ const handleChangePassword = async (e) => {
           <button type="submit" className="submit-btn">Change Password</button>
         </form>
       </div>
+    </div>
     </div>
   );
 };

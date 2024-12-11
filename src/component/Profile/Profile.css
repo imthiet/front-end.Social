@@ -1,6 +1,9 @@
 .profile-container {
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid;
+    box-shadow: 5px 5px 20px rgba(18, 3, 3, 0.1); /* X Offset, Y Offset, Blur, Màu */
 }
 
 .profile-header {
@@ -52,7 +55,7 @@
 .profile-avatar-upload label {
     display: inline-block;
     padding: 10px 20px;
-    background-color: rgb(210, 210, 234);
+    background-color: rgb(245, 245, 246);
     color: #1a0404;
     border-radius: 8px;
     cursor: pointer;
@@ -63,7 +66,7 @@
 }
 
 .profile-avatar-upload label:hover {
-    background-color: #0056b3;
+    background-color: #030b14;
     color: #ffffff;
 }
 
@@ -72,7 +75,7 @@
     margin-top: 10px;
     padding: 10px 20px;
     padding-left: 10px;
-    background-color:  rgb(210, 210, 234);
+    background-color:  rgb(248, 248, 248);
     color: rgb(25, 3, 3);
     border: 2px solid;
     border-radius: 8px;
@@ -169,3 +172,57 @@
   font-weight: bold;
   height: 45px;
   }
+  .friends-list {
+    
+    max-width: 400px;
+    margin: 20px auto;
+    margin-left: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.friends-list h3 {
+    margin-bottom: 15px;
+    text-align: center;
+    color: #333;
+    font-size: 1.5em;
+}
+
+.friends-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.friends-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 7px;
+    margin-bottom: 5px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.friends-list li:hover {
+    background-color: #f0f8ff;
+    border-color: #89c4f4;
+    transform: scale(1.02);
+}
+
+.friends-list li span {
+    font-size: 1em;
+    color: #555;
+}
+
+.friends-list p {
+    text-align: center;
+    color: #888;
+    font-size: 1em;
+}

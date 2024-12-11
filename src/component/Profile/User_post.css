@@ -1,150 +1,32 @@
 /* Post.css */
-.post-container {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 8px;
-    background-color: #fff;
-    position: relative; /* Đặt post-container là vị trí gốc */
-}
 
-.post-header {
-    display: flex;
-    justify-content: space-between;
-}
 
-.post-title {
-    margin-top: 0;
-    font-size: 1.2rem;
-    color: #333;
-}
 
-.post-content {
-    margin-top: 10px;
-    font-size: 1rem;
-}
 
-.post-image {
-    width: 100%;
-    height: auto;
-    margin-top: 10px;
-    border-radius: 8px;
-}
-
-.post-date {
-    color: #888;
-    font-size: 0.9rem;
-}
-.post-image
-{
-    max-width: 100px;
-    max-height: 300px;
-    object-fit: contain;
-    border-radius: 5px; /* Optional: Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Shadow for a nice effect */
-}
-.author
-{
-    font-weight: bold;
-    color: #333;
-}
-.post-icons {
-    display: flex;
-    align-items: center; /* Đảm bảo các icon và số lượng like cùng hàng */
-}
-
-.like-section {
-    display: flex;
-    align-items: center; /* Căn giữa icon like và số lượng like */
-    margin-right: 15px; /* Thêm khoảng cách giữa like và comment nếu cần */
-}
-
-.icon {
-    width: 20px; /* Đặt kích thước phù hợp cho các icon */
-    height: 20px;
-    cursor: pointer;
-}
-.comments-section {
-    position: absolute;
-    right: -380px; /* Điều chỉnh khoảng cách để phần comment xuất hiện bên cạnh post */
-    top: 0;
-    width: 350px;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-}
-
-.comment {
-    margin-bottom: 10px;
-}
-
-.comment p {
-    margin: 0;
-}
-
-.comment-image {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-top: 5px;
-}
-
-.add-comment {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.comment-input {
-    flex: 1;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.submit-comment {
-    padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    
-}
-
-.submit-comment:hover {
-    background-color: #45a049;
-}
-
-.error-message {
-    color: red;
-    margin-top: 5px;
-}
 .dropdown-container {
-    position: relative; /* Đặt vị trí container làm gốc */
+    position: absolute; /* Đảm bảo dropdown nằm trong post-container */
+    top: 0; /* Căn vị trí của dropdown-container đối với post-container */
+    right: 10px; /* Đặt dropdown ở góc phải */
 }
+
 .dropdown-toggle {
-    background: none;
+    background-color: #dae5f6;
     border: none;
-    font-size: 16px;
+    font-size: 12px;
     cursor: pointer;
     padding: 5px;
-    right: 0;
-    position: absolute;
-   
+    position: relative; /* Tạo không gian cho nút toggle */
 }
+
 .dropdown-menu {
     position: absolute;
-    top: 100%; /* Hiển thị ngay dưới nút toggle */
-    right: 0; /* Canh lề phải */
+    top: 100%; /* Menu dropdown xuất hiện ngay dưới nút toggle */
+    right: 0; /* Căn menu dropdown vào lề phải của .dropdown-container */
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000; /* Đảm bảo hiển thị trên các thành phần khác */
+    z-index: 1000; /* Đảm bảo menu không bị che khuất */
     list-style: none;
     padding: 5px 0;
     margin: 0;
@@ -154,7 +36,7 @@
 }
 
 .dropdown-container .dropdown-menu.show {
-    display: block; /* Hiển thị khi cần */
+    display: block; /* Hiển thị menu khi có class 'show' */
 }
 
 .dropdown-menu li {
@@ -166,6 +48,8 @@
 .dropdown-menu li:hover {
     background-color: #f0f0f0;
 }
+
+
 .modal {
     position: fixed;
     top: 0;
@@ -191,8 +75,8 @@
     display: flex;
     justify-content: space-between;
 }
-#edit-btn
-{
+
+#edit-btn {
     width: 20%; /* Điều chỉnh chiều rộng của button */
     padding: 5px;
     background-color: #ffffff;
@@ -205,8 +89,8 @@
   
     box-shadow: -5px -5px 5px rgba(18, 3, 3, 0.1); /* X Offset, Y Offset, Blur, Màu */
 }
-#edit-btn:hover
-{
+
+#edit-btn:hover {
     background-color: #00285A;
     color: #FFFFFF;
 }

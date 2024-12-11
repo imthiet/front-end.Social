@@ -8,7 +8,7 @@ const SearchPage = () => {
   const [results, setResults] = useState([]); // Kết quả tìm kiếm
   const [loading, setLoading] = useState(false); // Trạng thái loading
   const [page, setPage] = useState(0); // Trang hiện tại
-  const [size, setSize] = useState(10); // Số lượng kết quả mỗi trang
+  const [size, setSize] = useState(7); // Số lượng kết quả mỗi trang
 
   const navigate = useNavigate(); // Sử dụng useNavigate để điều hướng
 
@@ -134,12 +134,13 @@ const SearchPage = () => {
   
 
   return (
-    <div className="Search-container container mt-60 ">
+    <div className="Search-container container mt-80 ">
       <Navbar />
 
-      <div className="inner-search container mt-60">
+      <div className="inner-search container mt-80">
         <h4>Search Friend</h4>
         <input
+        className="search-input"
           type="text"
           placeholder="Enter keyword..."
           value={keyword}

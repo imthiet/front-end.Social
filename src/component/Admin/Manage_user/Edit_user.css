@@ -7,4 +7,5 @@
     padding: 20px; /* Thêm khoảng cách để nội dung không sát lề */
     min-height: 100vh; /* Đảm bảo nội dung luôn chiếm hết chiều cao màn hình */
     background-color: #fff; /* Màu nền (nếu cần) */
+    min-width: 500px;
 }

@@ -106,7 +106,7 @@ const Edit_user = () => {
             disabled
           />
         </div>
-        <div className="form-group form-check">
+        <div className="check">
           <label className="form-check-label" htmlFor="enabled">
             <input
               type="checkbox"
@@ -119,7 +119,7 @@ const Edit_user = () => {
             Enabled
           </label>
         </div>
-        <div className="form-group form-check">
+        <div className="check">
           <label className="form-check-label" htmlFor="isAdmin">
             <input
               type="checkbox"
