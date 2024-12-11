@@ -15,9 +15,14 @@ function Newsfeed() {
     const [showCreatePost, setShowCreatePost] = useState(false); // Hiển thị form tạo post
 
     const fetchPosts = async (page) => {
-        setIsLoading(true); // Use the setter function
+        setIsLoading(true); 
         try {
-            const response = await fetch(`http://localhost:8080/post/postByFriend?page=${page}&size=4`, {
+            let url = `http://localhost:8080/post/postByFriend?page=${page}&size=4`;
+            if (!hasMore) {
+                url = `http://localhost:8080/post/all?page=${page}&size=4`;
+            }
+            
+            const response = await fetch(url, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -25,6 +30,7 @@ function Newsfeed() {
                 credentials: 'include',
             });
             const data = await response.json();
+            
             if (data.length > 0) {
                 setPosts((prev) => {
                     const combinedPosts = [...prev, ...data];
@@ -35,16 +41,17 @@ function Newsfeed() {
                         return acc;
                     }, []);
                     return uniquePosts;
-                }); // Add new posts to the list, filtering out duplicates
+                });
             } else {
-                setHasMore(false); // No more posts to load
+                setHasMore(false);
             }
         } catch (error) {
             console.error('Error fetching posts:', error);
         } finally {
-            setIsLoading(false); // Set loading to false when done
+            setIsLoading(false);
         }
     };
+    
     
 
     // Api call when page change
@@ -61,10 +68,14 @@ function Newsfeed() {
             document.documentElement.scrollHeight
         ) {
             if (!isLoading && hasMore) {
-                setPage((prevPage) => prevPage + 1); // Tăng số trang để tải thêm
+                setPage((prevPage) => prevPage + 1); // Load thêm khi có bài
+            } else if (!isLoading && !hasMore) {
+                // end of friend p
+                fetchPosts(page);
             }
         }
     };
+    
 
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
