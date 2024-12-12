@@ -3,6 +3,9 @@ import './Profile.css';
 import Navbar from '../Navbar/Navbar';
 import Post from './User_post';
 
+import '../notice/notice.css';  
+import { showAlert } from '../notice/notice.js';  
+
 function Profile() {
     const [userProfile, setUserProfile] = useState(null);
     const [friends, setFriends] = useState([]);
@@ -70,6 +73,7 @@ function Profile() {
     );
 
     const handleFileChange = (event) => {
+        showAlert("File uploaded! Submit it...");
         setSelectedFile(event.target.files[0]);
     };
 
@@ -122,6 +126,9 @@ function Profile() {
     return (
         <div className='profile_main-container'>
             <Navbar />
+            <div id="notification" className="notification hidden" >
+                <span id="notification-message"></span>
+            </div>
             <div className="profile-container">
                 <div className="profile-header">
                     <h1>{userProfile.username}</h1>

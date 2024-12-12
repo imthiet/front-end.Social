@@ -4,6 +4,9 @@ import timeAgo from '../../Ago';
 import ChatBox from './ChatBox'; // Import ChatBox component
 import './Messages.css';
 
+import '../notice/notice.css';  
+import { showAlert } from '../notice/notice.js';  
+
 function Messages() {
     const [usersWithMessages, setUsersWithMessages] = useState([]);
     const [error, setError] = useState(null);
@@ -52,9 +55,12 @@ function Messages() {
                     },
                 });
                 if (response.ok) {
+                    showAlert("Deleted Message!");
+
                     setUsersWithMessages((prev) =>
                         prev.filter((user) => user.chatId !== chatId)
                     );
+                   
                     // console.log("Delete chat");
                 } else {
                     console.error('Failed to delete message');
@@ -68,7 +74,9 @@ function Messages() {
     return (
         <div className="maincontroller">
             <Navbar />
-
+            <div id="notification" className="notification hidden" >
+                <span id="notification-message"></span>
+            </div>
             <div className="messages-container">
                 {error && <p>{error}</p>}
                 {isLoading ? (

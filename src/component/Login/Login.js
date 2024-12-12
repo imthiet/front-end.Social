@@ -29,7 +29,7 @@ const Login = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'Invalid username or password');
+                throw new Error('Invalid username or password');
             }
 
             const data = await response.json();
@@ -40,7 +40,7 @@ const Login = () => {
             localStorage.setItem('userId', data.userId);
             navigate('/Newsfeed');
         } catch (err) {
-            setError(err.message);
+            setError("Invalid or not enable account!");
         } finally {
             setLoading(false);
         }

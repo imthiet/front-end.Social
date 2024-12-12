@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './post.css';
 import timeAgo from '../../Ago';
-
+import '../notice/notice.css';  
+import { showAlert } from '../notice/notice.js';  
 function Post({ id, content, image, createdBy, createdAt, likesCount, comments, liked }) {
     const [isLiked, setIsLiked] = useState(liked);
     const [likeCount, setLikeCount] = useState(likesCount);
@@ -123,7 +124,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
             });
     
             if (response.ok) {
-                alert("Report submitted successfully.");
+                showAlert("Report submitted successfully!");
                 setShowReportForm(false); // Ẩn form
                 setReportReason(""); // Reset lý do
                 setReportError(null);

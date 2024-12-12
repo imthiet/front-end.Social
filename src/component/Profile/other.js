@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./User_post.css";
+import '../notice/notice.css';  // Đảm bảo rằng đường dẫn đúng
+import { showAlert } from '../notice/notice.js';  // Đảm bảo rằng đường dẫn đúng
 
-import '../notice/notice.css';  
-import { showAlert } from '../notice/notice.js';  
 function Post({ id, content, image, createdBy, createdAt, likesCount, comments, liked, onDelete, onEdit }) {
     const [isLiked, setIsLiked] = useState(liked);
     const [likeCount, setLikeCount] = useState(likesCount);
@@ -54,7 +54,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
             }
         } catch (error) {
             console.error("Error deleting post:", error);
-            
+            showAlert("Done!");
             onDelete(id);
         }
     };
@@ -102,7 +102,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
             if (response.ok) {
                 const updatedPost = await response.json();
                 showAlert("Post updated successfully!");
-               
+    
                 // Gọi callback để cập nhật danh sách bài viết
                 if (typeof onEdit === "function") {
                     onEdit(id, updatedPost);
@@ -115,7 +115,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
             }
         } catch (error) {
             console.error("Error updating post:", error);
-           
+            alert("Done!");
             toggleEditModal();
            
         }
@@ -153,23 +153,20 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
             }
         } catch (error) {
             console.error("Error adding comment:", error);
-            setError("Comment cannot show now!");
+            setError("An error occurred while adding the comment");
         }
     };
 
     return (
         <div className="post-container">
-             <div id="notification" className="notification hidden" >
-                <span id="notification-message"></span>
-            </div>
             <p className="post-content">{content}</p>
             <div className="dropdown-container">
                 <button className="dropdown-toggle" onClick={toggleDropdown}>
                     ⋮
                 </button>
                 <ul className={`dropdown-menu ${showDropdown ? "show" : ""}`}>
-                    <li onClick={handleDeletePost}>Delete</li>
-                    <li onClick={() => toggleEditModal()}>Edit</li>
+                    <li>Report</li>
+                    
                 </ul>
             </div>
 
@@ -226,22 +223,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
                 </div>
             )}
 
-            {showEditModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <h3>Edit Post</h3>
-                        <textarea
-                            value={updatedContent}
-                            onChange={(e) => setUpdatedContent(e.target.value)}
-                            rows={5}
-                        />
-                        <div className="modal-actions">
-                            <button id="edit-btn" onClick={handleEditPost}>Save</button>
-                            <button id="edit-btn" onClick={toggleEditModal}>Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            )}
+       
 
         </div>
     );

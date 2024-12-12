@@ -2,16 +2,19 @@ import React, { useState, useEffect } from 'react';
 import Post from './post';
 import './Newsfeed.css';
 import Navbar from '../Navbar/Navbar';
-
+import {  useNavigate } from 'react-router-dom';
 // Import hàm showAlert từ notice.js
-import '../notice/notice.css';  // Đảm bảo rằng đường dẫn đúng
-import { showAlert } from '../notice/notice.js';  // Đảm bảo rằng đường dẫn đúng
+import '../notice/notice.css';  
+import { showAlert } from '../notice/notice.js';  
 
 function Newsfeed() {
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(0);
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [file, setFile] = useState(null);
+    const [preview, setPreview] = useState(null); 
+    const navigate = useNavigate();
     const [showCreatePost, setShowCreatePost] = useState(false); // Hiển thị form tạo post
 
     const fetchPosts = async (page) => {
@@ -98,19 +101,8 @@ function Newsfeed() {
 
             const data = await response.json();
             if (data.success) {
-                showAlert(data.message); 
-                setPosts((prevPosts) => [
-                    {
-                       
-                        content,
-                        image: URL.createObjectURL(file),
-                        createdBy: 'You', 
-                        createdAt: new Date().toISOString(),
-                        likesCount: 0,
-                        comments: [],
-                    },
-                    ...prevPosts,
-                ]);
+                showAlert(data.message, () => navigate('/profile'));
+             
                 setShowCreatePost(false); 
             } else {
                 showAlert(data.message);
@@ -163,19 +155,31 @@ function Newsfeed() {
 function CreatePost({ onCreatePost }) {
     const [content, setContent] = useState('');
     const [file, setFile] = useState(null);
+    const [preview, setPreview] = useState(null); 
+
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
+        if (selectedFile) {
+            setPreview(URL.createObjectURL(selectedFile)); // Tạo URL xem trước
+        } else {
+            setPreview(null);
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!content.trim()) {
-            showAlert('Nội dung không được để trống.'); // Thay vì alert
+            showAlert('Content cannot be null!'); // Thay vì alert
             return;
         }
         onCreatePost(content, file);
     };
 
     const handleClear = () => {
-        setContent(''); // Xóa nội dung trong textarea
-        setFile(null);  // Xóa file đã chọn
+        setContent('');
+        setFile(null);
+        setPreview(null); // Xóa URL xem trước
     };
 
     return (
@@ -189,8 +193,13 @@ function CreatePost({ onCreatePost }) {
             <input
                 type="file"
                 accept="image/*"
-                onChange={(e) => setFile(e.target.files[0])}
+                onChange={handleFileChange} // Thay đổi sự kiện onChange
             />
+            {preview && (
+                <div className="image-preview">
+                    <img src={preview} alt="Preview" style={{ maxWidth: '100%', maxHeight: '200px' }} />
+                </div>
+            )}
             <div className="button-group">
                 <button type="submit">Post It!!</button>
                 <button type="button" onClick={handleClear}>Clear All</button>
@@ -198,5 +207,6 @@ function CreatePost({ onCreatePost }) {
         </form>
     );
 }
+
 
 export default Newsfeed;

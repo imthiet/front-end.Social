@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Edit_profile.css';
+
+import '../notice/notice.css';  
+import { showAlert } from '../notice/notice.js';  
+
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
@@ -73,19 +77,20 @@ const Edit_profile = () => {
 
       if (response.ok) {
         setSuccessMessage('Profile updated successfully!');
+        showAlert("Update Profile Success!")
       } else {
         const data = await response.json();
         setError(data.message || 'Failed to update profile.');
       }
     } catch (error) {
-      console.error('Error updating profile:', error);
-      setError('An error occurred while updating the profile.');
+      
+      setError('You temp cannot change your username now, contact admin to solve!');
     }
   };
   const handleLogout = (e) => {
    
 
-    fetch('/users/logout', { method: 'GET' }) // API call to logout
+    fetch('http://localhost:8080/users/logout', { method: 'GET',  credentials: 'include', }) // API call to logout
         .then((response) => {
             if (response.ok) {
                 localStorage.removeItem('username'); // Clear username
@@ -113,13 +118,13 @@ const handleChangePassword = async (e) => {
           headers: {
               'Content-Type': 'application/json',
           },
-          credentials: 'include', // Đảm bảo thông tin xác thực được gửi
+          credentials: 'include', 
           body: JSON.stringify({ currentPassword, newPassword, confirmPassword }),
       });
 
       if (response.ok) {
           // Hiển thị thông báo thành công
-          setSuccessMessage('Password changed successfully!');
+          showAlert('Password changed successfully, Please login againt!');
 
           // Xóa dữ liệu trong các input fields
           setCurrentPassword('');
@@ -158,6 +163,9 @@ const handleChangePassword = async (e) => {
   return (
     <div>
       <Navbar/>
+      <div id="notification" className="notification hidden" >
+                <span id="notification-message"></span>
+            </div>
     <div className="edit-profile-container">
       <h2>Edit Profile</h2>
       {successMessage && <p className="success">{successMessage}</p>}

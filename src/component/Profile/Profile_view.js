@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css';
 import Navbar from '../Navbar/Navbar';
-import Post from './User_post';
+import Post from './other';
 import axios from "axios";
 import { useParams,useNavigate } from "react-router-dom";
 
-
+import '../notice/notice.css';  
+import { showAlert } from '../notice/notice.js';  
 
 function Profile_view() {
     const { username } = useParams(); // Lấy username từ URL
@@ -87,7 +88,7 @@ function Profile_view() {
               friendPending: true,
               friendRequestReceiver: true // Hiển thị "Friend Request Sent"
             }));
-            alert(data.message); // Hiển thị thông báo
+            showAlert(data.message); // Hiển thị thông báo
           } else {
             alert(`Failed to send friend request: ${data.message}`);
           }
@@ -143,8 +144,9 @@ function Profile_view() {
       
           if (response.ok) { // Kiểm tra nếu trạng thái HTTP là 2xx
             const data = await response.json();
-            alert("Friendship successfully canceled.");
-            // Cập nhật trạng thái trên giao diện nếu cần
+            showAlert("Friendship successfully canceled.");
+            // Cập nhật trạng thái 
+            window.location.reload();
           } else {
             const errorData = await response.json();
             alert(errorData.error || "Failed to cancel friendship.");
@@ -208,6 +210,9 @@ function Profile_view() {
     return (
       <div className="profile_main-container">
         <Navbar />
+        <div id="notification" className="notification hidden" >
+                <span id="notification-message"></span>
+            </div>
         <div className="profile-container">
           <div className="profile-header">
             {isLoading ? (

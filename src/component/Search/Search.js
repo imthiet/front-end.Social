@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Navbar from "../Navbar/Navbar";
 import "./Search.css";
 
+
+import '../notice/notice.css';  
+import { showAlert } from '../notice/notice.js';
+
 const SearchPage = () => {
   const [keyword, setKeyword] = useState(""); // Từ khóa tìm kiếm
   const [results, setResults] = useState([]); // Kết quả tìm kiếm
@@ -75,7 +79,7 @@ const SearchPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert(data.message);
+        showAlert(data.message);
         setResults((prevResults) =>
           prevResults.map((user) =>
             user.username === friendUsername
@@ -111,7 +115,7 @@ const SearchPage = () => {
       const data = await response.json();
   
       if (response.ok) {
-        alert(data.message);
+        showAlert(data.message);
         setResults((prevResults) =>
           prevResults.map((user) =>
             user.username === friendUsername
@@ -136,7 +140,9 @@ const SearchPage = () => {
   return (
     <div className="Search-container container mt-80 ">
       <Navbar />
-
+      <div id="notification" className="notification hidden" >
+                <span id="notification-message"></span>
+            </div>
       <div className="inner-search container mt-80">
         <h4>Search Friend</h4>
         <input

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import SideBar from "../Manage_web";
 import './Manage_post.css';
 import Modal from 'react-modal';
-import '../../notice/notice.css';  // Đảm bảo rằng đường dẫn đúng
+import '../../notice/notice.css';  
 import { showAlert } from '../../notice/notice';
+
+
 
 function Manage_post() {
     const [reports, setReports] = useState([]);
@@ -50,7 +52,7 @@ function Manage_post() {
               });
   
               if (response.ok) {
-                alert('Post deleted successfully!');
+                showAlert('Post deleted successfully!');
                   // Cập nhật lại giao diện (xóa bài viết khỏi danh sách)
                   setReports(reports.filter(report => report.postId !== postId));
               } else {
@@ -75,7 +77,7 @@ function Manage_post() {
             });
 
             if (response.ok) {
-                alert('Post ignored!');
+                showAlert('Post ignored!');
                 setReports(reports.filter(report => report.reportId !== reportId));
             } else if (response.status === 404) {
                 alert('Post not found in the reported list.');
@@ -91,6 +93,9 @@ function Manage_post() {
 
     return (
         <div className="container">
+             <div id="notification" className="notification hidden" >
+                <span id="notification-message"></span>
+            </div>
            <div className="sidebar-container">
         <SideBar />
       </div>
