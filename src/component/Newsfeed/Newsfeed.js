@@ -18,25 +18,44 @@ function Newsfeed() {
     const [showCreatePost, setShowCreatePost] = useState(false); // Hiển thị form tạo post
 
     const fetchPosts = async (page) => {
-        setIsLoading(true); 
+        setIsLoading(true);
         try {
             let url = `http://localhost:8080/post/postByFriend?page=${page}&size=4`;
+    
+            // Kiểm tra nếu không còn dữ liệu từ bạn bè, chuyển sang API all
             if (!hasMore) {
                 url = `http://localhost:8080/post/all?page=${page}&size=4`;
             }
-            
-            const response = await fetch(url, {
+    
+            let response = await fetch(url, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 method: 'GET',
                 credentials: 'include',
             });
-            const data = await response.json();
-            
-            if (data.length > 0) {
+            let data = await response.json();
+    
+            // Nếu fetch từ postByFriend mà không có dữ liệu, chuyển sang all
+            if (data.length === 0 && hasMore) {
+                url = `http://localhost:8080/post/all?page=${page}&size=4`;
+                response = await fetch(url, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'GET',
+                    credentials: 'include',
+                });
+                data = await response.json();
+            }
+    
+            // Lọc bài viết chưa được like
+            const filteredPosts = data.filter((post) => !post.liked);
+    
+            // Xử lý dữ liệu trả về
+            if (filteredPosts.length > 0) {
                 setPosts((prev) => {
-                    const combinedPosts = [...prev, ...data];
+                    const combinedPosts = [...prev, ...filteredPosts];
                     const uniquePosts = combinedPosts.reduce((acc, post) => {
                         if (!acc.find(p => p.id === post.id)) {
                             acc.push(post);
@@ -46,7 +65,7 @@ function Newsfeed() {
                     return uniquePosts;
                 });
             } else {
-                setHasMore(false);
+                setHasMore(false); 
             }
         } catch (error) {
             console.error('Error fetching posts:', error);
@@ -54,6 +73,8 @@ function Newsfeed() {
             setIsLoading(false);
         }
     };
+    
+    
     
     
 

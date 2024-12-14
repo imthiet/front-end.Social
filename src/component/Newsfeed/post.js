@@ -16,6 +16,10 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
     const [reportReason, setReportReason] = useState(""); // Lý do báo cáo
     const [reportError, setReportError] = useState(null); // Lỗi khi gửi báo cáo
 
+
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+const [selectedImage, setSelectedImage] = useState(null);
+
     useEffect(() => {
         setIsLiked(liked);
         const handleClickOutside = (event) => {
@@ -85,7 +89,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
 
             if (response.ok) {
                 const data = await response.json();
-                const newCommentData = { username: "YourUsername", content: newComment }; // Adjust with your user's username or get it from response
+                const newCommentData = { username: "You", content: newComment }; // Adjust with your user's username or get it from response
 
                 // Add the new comment to commentsList
                 setCommentsList([newCommentData, ...commentsList]);
@@ -136,7 +140,13 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
             setReportError("Error submitting the report.");
         }
     };
-    
+    const onImageClick = () => {
+        // Handle the image click logic here, for example:
+        console.log('Image clicked!');
+        setSelectedImage(image);
+    setModalIsOpen(true); // Open the modal
+      };
+      
 
     return (
         <div className="post-container">
@@ -149,7 +159,7 @@ function Post({ id, content, image, createdBy, createdAt, likesCount, comments, 
                 <li onClick={toggleReportForm}>Report</li>
                 </ul>
             </div>
-            {image && <img src={`data:image/png;base64,${image}`} alt="Post" className="post-image" />}
+            {image && <img src={`data:image/png;base64,${image}`} alt="Post" className="post-image"  onClick={() => onImageClick(`data:image/png;base64,${image}`)} />}
             <p className="author">{createdBy} - {timeAgo(createdAt)}</p>
     
             <div className="post-icons">

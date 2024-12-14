@@ -120,7 +120,7 @@ function Navbar() {
                     <img src={require('../../assets/images/transparency.png')} alt="Search" />
                 </Link>
 
-                <Link to="/newfeed" className="logo">
+                <Link to="/contact" className="logo">
                     <img src={require('../../assets/images/logo.png')} alt="Search" />
                 </Link>
                

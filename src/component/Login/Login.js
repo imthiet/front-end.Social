@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Login.css'; // Custom CSS for styling adjustments
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
@@ -11,41 +11,50 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [passwordVisible, setPasswordVisible] = useState(false);
-
+    
     const navigate = useNavigate();
+
+    // Auto scroll to bottom-right on page load
+    useEffect(() => {
+        window.scrollTo({
+            top: document.body.scrollHeight, // Cuộn đến cuối height
+            left: document.body.scrollWidth, // Cuộn đến cuối width
+            behavior: 'smooth', // Hiệu ứng mượt mà
+        });
+    }, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
-
+    
         try {
             const response = await fetch('http://localhost:8080/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
-               
+                credentials: 'include',
             });
-
+    
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error('Invalid username or password');
+                const errorData = await response.text(); // Lấy lỗi từ server
+                throw new Error(errorData);
             }
-
+    
             const data = await response.json();
-           
+    
             localStorage.setItem('auth', 'true');
             localStorage.setItem('username', username);
             localStorage.setItem('isAdmin', data.isAdmin);
             localStorage.setItem('userId', data.userId);
             navigate('/Newsfeed');
         } catch (err) {
-            setError("Invalid or not enable account!");
+            setError(err.message); // Hiển thị lỗi từ server
         } finally {
             setLoading(false);
         }
     };
-    
+
     const togglePassword = () => setPasswordVisible(!passwordVisible);
 
     return (
@@ -53,9 +62,7 @@ const Login = () => {
             className="login-background" 
             style={{ backgroundImage: `url(${backgroundImage})` }}
             id='root'
-
         >
-           
             <form onSubmit={handleLogin} className="login-form">
                 <h2 className="text-center mb-4 Title">Welcome to Now Feed</h2>
 

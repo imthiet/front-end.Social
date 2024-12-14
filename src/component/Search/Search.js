@@ -57,6 +57,7 @@ const SearchPage = () => {
 
   // Hàm chuyển hướng đến profile
   const handleUserClick = (username) => {
+    
     navigate(`/profile_view/${username}`); // Điều hướng đến trang profile và truyền username
   };
 
@@ -162,7 +163,8 @@ const SearchPage = () => {
                 <li
                   key={user.username}
                   className="list-group-item d-flex justify-content-between align-items-center"
-                  onClick={() => handleUserClick(user.username)} // Thêm sự kiện click
+                  onClick={() => handleUserClick(user.username)} 
+                 
                   style={{ cursor: "pointer" }} // Thay đổi con trỏ để người dùng biết có thể click
                 >
                   <span>

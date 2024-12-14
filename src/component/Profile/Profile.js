@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Profile.css';
 import Navbar from '../Navbar/Navbar';
 import Post from './User_post';
-
+import { useParams,useNavigate } from "react-router-dom";
 import '../notice/notice.css';  
 import { showAlert } from '../notice/notice.js';  
 
@@ -13,7 +13,7 @@ function Profile() {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(3); // Số lượng bạn bè trên mỗi trang
-    
+     const navigate = useNavigate();
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploadMessage, setUploadMessage] = useState("");
 
@@ -76,7 +76,10 @@ function Profile() {
         showAlert("File uploaded! Submit it...");
         setSelectedFile(event.target.files[0]);
     };
-
+    const handleUserClick = (username) => {
+        console.log(username);
+        navigate(`/profile_view/${username}`); // Điều hướng đến trang profile và truyền username
+    };
     const handleAvatarUpload = async () => {
         if (!selectedFile) {
             setUploadMessage("Please select a file");
@@ -166,9 +169,13 @@ function Profile() {
         <>
             <ul>
                 {paginatedFriends.map((friend) => (
-                    <li key={friend.id}>
-                        <span>{friend.username}</span> - <span>{friend.email}</span>
-                    </li>
+                      <li 
+                      key={friend.id} 
+                      onClick={() => handleUserClick(friend.username)} 
+                      style={{ cursor: 'pointer' }} 
+                  >
+                      <span>{friend.username}</span> - <span>{friend.email}</span>
+                  </li>
                 ))}
             </ul>
             <div className="pagination">
